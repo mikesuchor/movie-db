@@ -7,12 +7,9 @@ import {
 import { faStar as faEmptyStar } from "@fortawesome/free-regular-svg-icons";
 import "./css/FeaturedMovie.css";
 
-const FeaturedMovie = ({ featuredMovie }) => {
+const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
   const poster_path = `https://image.tmdb.org/t/p/w500/${featuredMovie.poster_path}`;
-  //   const trailer_path =
-  //     featuredMovie.videos.results.length > 0
-  //       ? `https://www.youtube.com/embed/${featuredMovie.videos.results[0].key}`
-  //       : null;
+  const featuredMovieTrailerURL = `https://www.youtube.com/embed/${featuredMovieTrailer.key}`;
   const style = {
     backgroundImage: `url(${poster_path})`
   };
@@ -60,15 +57,15 @@ const FeaturedMovie = ({ featuredMovie }) => {
             </span>
           </p>
         </div>
-        {/* <iframe
-          title="Trailer"
+        <iframe
+          title={featuredMovieTrailer.name}
           width="100%"
           height="100%"
-          src={trailer_path}
+          src={featuredMovieTrailerURL}
           frameBorder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
-        /> */}
+        />
       </div>
     </div>
   );
