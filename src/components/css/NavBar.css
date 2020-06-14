@@ -1,0 +1,29 @@
+.ui.secondary.menu {
+  background-color: #0a1e24;
+  border-bottom: 1px solid #fff;
+}
+
+.ui.secondary.menu a {
+  color: #fff;
+}
+.ui.menu .menu,
+.ui.menu i {
+  background-color: #0a1e24;
+}
+
+/* .navbar * {
+  background-color: #0a1e24 !important;
+}
+
+.navbar-menu {
+  display: flex;
+  text-align: center;
+}
+
+.navbar-menu li {
+  width: 12%;
+}
+
+.navbar-menu li svg {
+  margin-right: 5px;
+} */

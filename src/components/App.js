@@ -1,5 +1,5 @@
 import React from "react";
-import SearchBar from "./SearchBar";
+import NavBar from "./NavBar";
 import FeaturedMovie from "./FeaturedMovie";
 import MoviesList from "./MoviesList";
 import Footer from "./Footer";
@@ -51,7 +51,7 @@ class App extends React.Component {
     if (this.state.dataLoaded) {
       return (
         <div>
-          <SearchBar onFormSubmit={this.onFormSubmit} />
+          <NavBar onFormSubmit={this.onFormSubmit} />
           <FeaturedMovie
             featuredMovie={this.state.featuredMovie}
             featuredMovieTrailer={this.state.featuredMovieTrailer}
