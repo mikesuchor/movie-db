@@ -42,7 +42,7 @@ const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
         <iframe
           className="featured-movie-trailer"
           title={featuredMovieTrailer.name}
-          width="75%"
+          width="100%"
           height="400px"
           src={featuredMovieTrailerURL}
           frameBorder="0"
