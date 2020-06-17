@@ -2,12 +2,8 @@ import React from "react";
 import "./css/FeaturedMovie.css";
 
 const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
-  const backdrop_path = `https://image.tmdb.org/t/p/w780/${featuredMovie.backdrop_path}`;
-  const poster_path = `https://image.tmdb.org/t/p/w500/${featuredMovie.poster_path}`;
+  const backdrop_path = `https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}`;
   const featuredMovieTrailerURL = `https://www.youtube.com/embed/${featuredMovieTrailer.key}`;
-  const style = {
-    backgroundImage: `url(${backdrop_path})`
-  };
   const stars = [];
 
   for (let i = 0; i < 10; i++) {
@@ -28,8 +24,10 @@ const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
   }
 
   return (
-    <div className="featured-movie">
-      <div className="featured-movie-poster" style={style}></div>
+    <div
+      className="featured-movie"
+      style={{ backgroundImage: `url(${backdrop_path})` }}
+    >
       <div className="featured-movie-info">
         <h1 className="featured-movie-title">{featuredMovie.title}</h1>
         <p className="featured-movie-overview">{featuredMovie.overview}</p>
@@ -44,8 +42,8 @@ const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
         <iframe
           className="featured-movie-trailer"
           title={featuredMovieTrailer.name}
-          width="100%"
-          height="300px"
+          width="75%"
+          height="400px"
           src={featuredMovieTrailerURL}
           frameBorder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
