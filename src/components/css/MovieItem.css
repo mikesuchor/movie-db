@@ -1,6 +1,5 @@
 .movie-item {
-  min-width: 200px;
-  flex-basis: 12%;
+  width: 200px;
   text-align: center;
   padding: 8px;
 }
