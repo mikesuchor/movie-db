@@ -39,7 +39,6 @@ video {
   font: inherit;
   vertical-align: baseline;
   font-family: Helvetica, Arial, sans-serif;
-  background: #102e37;
   color: #fff;
 }
 /* HTML5 display-role reset for older browsers */
@@ -60,13 +59,10 @@ ol,
 ul {
   list-style: none;
 }
-
-p {
-  font-size: 2vh;
+body {
+  padding-top: 50px;
+  background: #102e37;
 }
-
-@media screen and (max-width: 600px) {
-  body {
-    margin-top: 10vh;
-  }
+p {
+  font-size: 16px;
 }

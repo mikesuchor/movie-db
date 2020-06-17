@@ -2,9 +2,15 @@ import React from "react";
 import MovieItem from "./MovieItem";
 import "./css/MoviesList.css";
 
-const MoviesList = ({ movies }) => {
+const MoviesList = ({ movies, onClickMovieItem }) => {
   const renderedList = movies.map((movie) => {
-    return <MovieItem key={movie.id} movie={movie} />;
+    return (
+      <MovieItem
+        key={movie.id}
+        movie={movie}
+        onClickMovieItem={onClickMovieItem}
+      />
+    );
   });
   return (
     <div className="movies-section">

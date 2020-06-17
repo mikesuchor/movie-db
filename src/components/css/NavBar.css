@@ -1,29 +1,17 @@
 .ui.secondary.menu {
-  background-color: #0a1e24;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  padding: 15px;
+  margin: 0;
+  background: #102e37;
   border-bottom: 1px solid #fff;
 }
-
 .ui.secondary.menu a {
   color: #fff;
 }
-.ui.menu .menu,
-.ui.menu i {
-  background-color: #0a1e24;
+.ui.secondary.menu a:hover,
+.ui.secondary.menu a:hover * {
+  color: goldenrod !important;
 }
-
-/* .navbar * {
-  background-color: #0a1e24 !important;
-}
-
-.navbar-menu {
-  display: flex;
-  text-align: center;
-}
-
-.navbar-menu li {
-  width: 12%;
-}
-
-.navbar-menu li svg {
-  margin-right: 5px;
-} */

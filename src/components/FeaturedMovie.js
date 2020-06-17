@@ -1,17 +1,12 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faStar as faSolidStar,
-  faStarHalfAlt
-} from "@fortawesome/free-solid-svg-icons";
-import { faStar as faEmptyStar } from "@fortawesome/free-regular-svg-icons";
 import "./css/FeaturedMovie.css";
 
 const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
+  const backdrop_path = `https://image.tmdb.org/t/p/w780/${featuredMovie.backdrop_path}`;
   const poster_path = `https://image.tmdb.org/t/p/w500/${featuredMovie.poster_path}`;
   const featuredMovieTrailerURL = `https://www.youtube.com/embed/${featuredMovieTrailer.key}`;
   const style = {
-    backgroundImage: `url(${poster_path})`
+    backgroundImage: `url(${backdrop_path})`
   };
   const stars = [];
 
@@ -21,24 +16,14 @@ const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
       featuredMovie.vote_average - i < 1 &&
       featuredMovie.vote_average - i > 0
     ) {
-      stars.push(
-        <FontAwesomeIcon
-          className="star"
-          key={`star${i}`}
-          icon={faStarHalfAlt}
-        />
-      );
+      stars.push(<i className="star half icon" key={`star${i}`}></i>);
     } else if (
       i < featuredMovie.vote_average &&
       featuredMovie.vote_average - i > 0
     ) {
-      stars.push(
-        <FontAwesomeIcon className="star" key={`star${i}`} icon={faSolidStar} />
-      );
+      stars.push(<i className="star icon" key={`star${i}`}></i>);
     } else {
-      stars.push(
-        <FontAwesomeIcon className="star" key={`star${i}`} icon={faEmptyStar} />
-      );
+      stars.push(<i className="star outline icon" key={`star${i}`}></i>);
     }
   }
 
@@ -47,7 +32,6 @@ const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
       <div className="featured-movie-poster" style={style}></div>
       <div className="featured-movie-info">
         <h1 className="featured-movie-title">{featuredMovie.title}</h1>
-        <h2 className="featured-movie-tagline">{featuredMovie.tagline}</h2>
         <p className="featured-movie-overview">{featuredMovie.overview}</p>
         <div className="featured-movie-rating">
           <p className="stars">
@@ -58,9 +42,10 @@ const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
           </p>
         </div>
         <iframe
+          className="featured-movie-trailer"
           title={featuredMovieTrailer.name}
           width="100%"
-          height="100%"
+          height="300px"
           src={featuredMovieTrailerURL}
           frameBorder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"

@@ -3,22 +3,16 @@
 }
 
 .movies-section h2 {
-  margin-top: 2vh;
+  margin-top: 20px;
   font-family: "Montserrat", sans-serif;
-  font-size: 4vh;
+  font-size: 32px;
   font-weight: 600;
   text-align: center;
-}
-
-@media screen and (max-width: 640px) {
-  .movies-section h2 {
-    font-size: 3vh;
-  }
 }
 
 .movies-list {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 1vh;
+  margin-top: 10px;
   justify-content: center;
 }

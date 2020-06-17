@@ -18,22 +18,28 @@ class App extends React.Component {
     const movies = await tmdb.get(`/3/${action}/movie/`, {
       params: {
         api_key: "1155f6c239cb4332df695fcf245eaffd",
-        query
+        include_adult: false,
+        include_video: false,
+        query,
+        "vote_count.gte": 100
       }
     });
-    const featuredMovieTrailer = await tmdb.get(
-      `/3/movie/${movies.data.results[0].id}/videos`,
-      {
-        params: {
-          api_key: "1155f6c239cb4332df695fcf245eaffd"
-        }
-      }
+    const featuredMovieTrailer = await this.getTrailer(
+      movies.data.results[0].id
     );
     this.setState({
       dataLoaded: true,
       movies: movies.data.results,
       featuredMovie: movies.data.results[0],
       featuredMovieTrailer: featuredMovieTrailer.data.results[0]
+    });
+  };
+
+  getTrailer = async (movie) => {
+    return tmdb.get(`/3/movie/${movie}/videos`, {
+      params: {
+        api_key: "1155f6c239cb4332df695fcf245eaffd"
+      }
     });
   };
 
@@ -47,6 +53,15 @@ class App extends React.Component {
     this.getMovies("search", input);
   };
 
+  onClickMovieItem = async (movie) => {
+    const clickedMovieTrailer = await this.getTrailer(movie.id);
+    console.log(clickedMovieTrailer);
+    this.setState({
+      featuredMovie: movie,
+      featuredMovieTrailer: clickedMovieTrailer.data.results[0]
+    });
+  };
+
   render() {
     if (this.state.dataLoaded) {
       return (
@@ -56,7 +71,10 @@ class App extends React.Component {
             featuredMovie={this.state.featuredMovie}
             featuredMovieTrailer={this.state.featuredMovieTrailer}
           />
-          <MoviesList movies={this.state.movies} />
+          <MoviesList
+            movies={this.state.movies}
+            onClickMovieItem={this.onClickMovieItem}
+          />
           <Footer />
         </div>
       );

@@ -1,6 +1,4 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./css/SearchBar.css";
 
 class SearchBar extends React.Component {
@@ -17,13 +15,12 @@ class SearchBar extends React.Component {
 
   render() {
     return (
-      <div className="search-field-container">
-        <form className="search-form" onSubmit={this.onFormSubmit}>
-          <span>
-            <button className="submit-button" type="submit">
-              <i className="search icon"></i>
-            </button>
-          </span>
+      <div className="search-field-container ui search">
+        <form
+          className="search-form ui icon input"
+          onSubmit={this.onFormSubmit}
+        >
+          <i className="search icon"></i>
           <input
             className="search-field"
             type="text"

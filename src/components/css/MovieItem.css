@@ -1,11 +1,11 @@
 .movie-item {
-  width: 12%;
+  min-width: 200px;
+  flex-basis: 12%;
   text-align: center;
-  padding: 1vh;
+  padding: 8px;
 }
 
 .movie-item .movie-poster {
-  width: 100%;
   opacity: 0.9;
 }
 
@@ -14,15 +14,8 @@
   cursor: pointer;
 }
 
-.movie-item .movie-vote-average .star-icon {
-  font-size: 1.75vh;
+.movie-vote-average .star {
+  font-size: 12px;
   color: goldenrod;
-  padding-right: 2px;
-}
-
-@media screen and (max-width: 640px) {
-  .movie-item {
-    width: 50%;
-    padding: 0.5vh;
-  }
+  margin-right: 6px;
 }
