@@ -2,6 +2,15 @@ import React from "react";
 import SearchBar from "./SearchBar";
 import "./css/NavBar.css";
 
+const toggleSearchInput = () => {
+  const searchBarElement = document.querySelector(".search-bar");
+  if (searchBarElement.style.display === "none") {
+    searchBarElement.style.display = "block";
+  } else {
+    searchBarElement.style.display = "none";
+  }
+};
+
 const NavBar = (props) => {
   return (
     <div className="ui secondary menu">
@@ -19,6 +28,10 @@ const NavBar = (props) => {
       </a>
       <div className="right menu">
         <SearchBar onFormSubmit={props.onFormSubmit} />
+        <a className="item" href="#" onClick={() => toggleSearchInput()}>
+          <i className="search icon"></i>
+          Search
+        </a>
         <a className="item" href="/mylist">
           <i className="plus icon"></i>
           My List

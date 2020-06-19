@@ -1,18 +1,20 @@
 import React from "react";
-import Flickity from "flickity";
 import MovieItem from "./MovieItem";
+import Swiper from "swiper";
+import "swiper/css/swiper.min.css";
 import "./css/MoviesList.css";
 
 class MoviesList extends React.Component {
   componentDidMount() {
-    new Flickity(".movies-list", {
-      cellAlign: "left",
-      contain: true
+    new Swiper(".swiper-container", {
+      slidesPerView: "auto",
+      grabCursor: true,
+      loop: true
     });
   }
 
   render() {
-    const { movies, onClickMovieItem } = this.props;
+    let { movies, onClickMovieItem } = this.props;
 
     const renderedList = movies.map((movie) => {
       return (
@@ -23,10 +25,13 @@ class MoviesList extends React.Component {
         />
       );
     });
+
     return (
       <div className="movies-section">
         <h2>TRENDING MOVIES</h2>
-        <div className="movies-list">{renderedList}</div>
+        <div className="movies-list swiper-container">
+          <div className="swiper-wrapper">{renderedList}</div>
+        </div>
       </div>
     );
   }

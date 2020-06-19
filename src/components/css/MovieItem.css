@@ -10,7 +10,6 @@
 
 .movie-item .movie-poster:hover {
   opacity: 1;
-  cursor: pointer;
 }
 
 .movie-vote-average .star {

@@ -4,7 +4,7 @@ import "./css/MovieItem.css";
 const MovieItem = ({ movie, onClickMovieItem }) => {
   const poster_path = `http://image.tmdb.org/t/p/w185/${movie.poster_path}`;
   return (
-    <div className="movie-item">
+    <div className="movie-item swiper-slide">
       <img
         className="movie-poster"
         src={poster_path}

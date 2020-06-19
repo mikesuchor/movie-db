@@ -1,6 +1,17 @@
+.search-bar {
+  display: none;
+}
+
 form.ui.input > input {
   border: 2px solid #fff;
   border-radius: 20px;
   background: none;
   color: #fff;
+}
+
+form.ui.input > input:focus {
+  border: 2px solid goldenrod;
+  background: none;
+  color: goldenrod;
+  text-transform: capitalize;
 }

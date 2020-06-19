@@ -14,3 +14,7 @@
   margin-top: 10px;
   outline: none;
 }
+
+.swiper-slide {
+  width: 200px;
+}
