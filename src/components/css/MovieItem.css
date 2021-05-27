@@ -12,13 +12,8 @@
 }
 
 .movie-item .movie-poster {
-  opacity: 0.9;
   width: 185px;
   height: 278px;
-}
-
-.movie-item .movie-poster:hover {
-  opacity: 1;
 }
 
 .movie-item .movie-title {
