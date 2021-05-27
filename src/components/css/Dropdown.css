@@ -1,0 +1,28 @@
+.dropdown {
+  position: relative;
+}
+.dropdown-content {
+  position: absolute;
+  display: none;
+  height: 422px;
+  background: #144b5c;
+  border: 1px solid #fdfdfe;
+}
+.dropdown-content li {
+  padding: 12px;
+  display: block;
+  background: #144b5c;
+  color: #fdfdfe;
+  width: 200px;
+}
+.dropdown .item:hover {
+  color: #fdfdfe;
+  background: #22848d;
+}
+.dropdown:hover .dropdown-content {
+  display: flex;
+}
+.dropdown-content li:hover {
+  background: #22848d;
+  cursor: pointer;
+}

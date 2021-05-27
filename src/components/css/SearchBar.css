@@ -10,8 +10,8 @@ form.ui.input > input {
 }
 
 form.ui.input > input:focus {
-  border: 2px solid #eebf10;
-  background: none;
-  color: #eebf10;
+  border: 2px solid #fdfdfe;
+  background: #22848d;
+  color: #fdfdfe;
   text-transform: capitalize;
 }

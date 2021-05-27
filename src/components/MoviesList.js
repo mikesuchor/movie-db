@@ -4,7 +4,7 @@ import './css/MoviesList.css';
 
 class MoviesList extends React.Component {
   render() {
-    let { movies, onClickMovieItem } = this.props;
+    let { movies, onClickMovieItem, genre } = this.props;
 
     const renderedList = movies.map((movie) => {
       return <MovieItem key={movie.id} movie={movie} onClickMovieItem={onClickMovieItem} />;
@@ -12,7 +12,7 @@ class MoviesList extends React.Component {
 
     return (
       <div className="movies-section">
-        <h2>TRENDING MOVIES</h2>
+        <h2>TRENDING {genre} MOVIES</h2>
         <div className="movies-list">{renderedList}</div>
       </div>
     );

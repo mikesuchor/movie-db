@@ -14,6 +14,6 @@
 }
 .ui.secondary.menu button:hover,
 .ui.secondary.menu button:hover * {
-  color: #eebf10 !important;
+  background: #22848d;
   cursor: pointer;
 }

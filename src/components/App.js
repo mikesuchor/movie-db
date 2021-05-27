@@ -11,17 +11,19 @@ class App extends React.Component {
     dataLoaded: false,
     movies: [],
     featuredMovie: '',
-    featuredMovieTrailer: ''
+    featuredMovieTrailer: '',
+    genre: ''
   };
 
-  getMovies = async (action, query = '') => {
+  getMovies = async (action, query = '', with_genres = '') => {
     const movies = await tmdb.get(`/3/${action}/movie/`, {
       params: {
         api_key: '1155f6c239cb4332df695fcf245eaffd',
         include_adult: false,
         include_video: false,
         query,
-        'vote_count.gte': 100
+        'vote_count.gte': 100,
+        with_genres
       }
     });
     const featuredMovieTrailer = await this.getTrailer(movies.data.results[0].id);
@@ -46,6 +48,13 @@ class App extends React.Component {
     this.getMovies('discover');
   }
 
+  onSelectGenre = (genre, id) => {
+    this.getMovies('discover', '', id);
+    this.setState({
+      genre
+    });
+  };
+
   // When SearchBar component is submitted, get movie data from tmdb using "search" action and input query and store it in state
   onSearchSubmit = (input) => {
     this.getMovies('search', input);
@@ -53,7 +62,6 @@ class App extends React.Component {
 
   onClickMovieItem = async (movie) => {
     const clickedMovieTrailer = await this.getTrailer(movie.id);
-    console.log(clickedMovieTrailer);
     this.setState({
       featuredMovie: movie,
       featuredMovieTrailer: clickedMovieTrailer.data.results[0]
@@ -64,12 +72,12 @@ class App extends React.Component {
     if (this.state.dataLoaded) {
       return (
         <div>
-          <NavBar onSearchSubmit={this.onSearchSubmit} />
+          <NavBar onSelectGenre={this.onSelectGenre} onSearchSubmit={this.onSearchSubmit} />
           <FeaturedMovie
             featuredMovie={this.state.featuredMovie}
             featuredMovieTrailer={this.state.featuredMovieTrailer}
           />
-          <MoviesList movies={this.state.movies} onClickMovieItem={this.onClickMovieItem} />
+          <MoviesList genre={this.state.genre} movies={this.state.movies} onClickMovieItem={this.onClickMovieItem} />
           <Footer />
         </div>
       );

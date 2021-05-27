@@ -1,8 +1,8 @@
 import React from 'react';
 import './css/FeaturedMovie.css';
 
+// Blank movie trailer as default for movies which don't have trailers
 const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer = 'jBa_aHwCbC4' }) => {
-  console.log(featuredMovieTrailer);
   const backdrop_path = `https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}`;
   const featuredMovieTrailerURL = `https://www.youtube.com/embed/${featuredMovieTrailer.key}`;
   const stars = [];

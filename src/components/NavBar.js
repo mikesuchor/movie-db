@@ -1,4 +1,5 @@
 import React from 'react';
+import Dropdown from './Dropdown';
 import SearchBar from './SearchBar';
 import './css/NavBar.css';
 
@@ -18,14 +19,15 @@ const NavBar = (props) => {
         <i className="home icon"></i>
         HOME
       </button>
-      <button className="item">
+      {/* <button className="item" onClick={() => props.onSelectMoviesCategory()}>
         <i className="film icon"></i>
         MOVIES
       </button>
-      <button className="item">
+      <button className="item" onClick={() => props.onSelectTVCategory()}>
         <i className="tv icon"></i>
         TV SHOWS
-      </button>
+      </button> */}
+      <Dropdown onSelectGenre={props.onSelectGenre} />
       <div className="right menu">
         <SearchBar onSearchSubmit={props.onSearchSubmit} />
         <button className="item" onClick={() => toggleSearchInput()}>
