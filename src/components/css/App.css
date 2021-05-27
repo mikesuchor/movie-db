@@ -39,7 +39,7 @@ video {
   font: inherit;
   vertical-align: baseline;
   font-family: Helvetica, Arial, sans-serif;
-  color: #fff;
+  color: #fdfdfe;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -61,7 +61,7 @@ ul {
 }
 body {
   padding-top: 50px;
-  background: #000;
+  background: #144b5c;
 }
 p {
   font-size: 16px;

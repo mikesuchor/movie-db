@@ -4,17 +4,16 @@
 
 .movies-section h2 {
   margin-top: 20px;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 32px;
   font-weight: 600;
   text-align: center;
 }
 
 .movies-list {
-  margin-top: 10px;
   outline: none;
-}
-
-.swiper-slide {
-  width: 200px;
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

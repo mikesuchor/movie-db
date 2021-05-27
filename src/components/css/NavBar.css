@@ -6,13 +6,14 @@
   z-index: 10;
   padding: 10px;
   margin: 0;
-  background: #000;
-  border-bottom: 1px solid #fff;
+  background: #144b5c;
+  border-bottom: 1px solid #fdfdfe;
 }
-.ui.secondary.menu a {
-  color: #fff;
+.ui.secondary.menu button {
+  color: #fdfdfe;
 }
-.ui.secondary.menu a:hover,
-.ui.secondary.menu a:hover * {
-  color: goldenrod !important;
+.ui.secondary.menu button:hover,
+.ui.secondary.menu button:hover * {
+  color: #eebf10 !important;
+  cursor: pointer;
 }

@@ -1,32 +1,30 @@
-import React from "react";
-import NavBar from "./NavBar";
-import FeaturedMovie from "./FeaturedMovie";
-import MoviesList from "./MoviesList";
-import Footer from "./Footer";
-import tmdb from "../api/tmdb";
-import "./css/App.css";
+import React from 'react';
+import NavBar from './NavBar';
+import FeaturedMovie from './FeaturedMovie';
+import MoviesList from './MoviesList';
+import Footer from './Footer';
+import tmdb from '../api/tmdb';
+import './css/App.css';
 
 class App extends React.Component {
   state = {
     dataLoaded: false,
     movies: [],
-    featuredMovie: "",
-    featuredMovieTrailer: ""
+    featuredMovie: '',
+    featuredMovieTrailer: ''
   };
 
-  getMovies = async (action, query = "") => {
+  getMovies = async (action, query = '') => {
     const movies = await tmdb.get(`/3/${action}/movie/`, {
       params: {
-        api_key: "1155f6c239cb4332df695fcf245eaffd",
+        api_key: '1155f6c239cb4332df695fcf245eaffd',
         include_adult: false,
         include_video: false,
         query,
-        "vote_count.gte": 100
+        'vote_count.gte': 100
       }
     });
-    const featuredMovieTrailer = await this.getTrailer(
-      movies.data.results[0].id
-    );
+    const featuredMovieTrailer = await this.getTrailer(movies.data.results[0].id);
     this.setState({
       dataLoaded: true,
       movies: movies.data.results,
@@ -38,19 +36,19 @@ class App extends React.Component {
   getTrailer = async (movie) => {
     return tmdb.get(`/3/movie/${movie}/videos`, {
       params: {
-        api_key: "1155f6c239cb4332df695fcf245eaffd"
+        api_key: '1155f6c239cb4332df695fcf245eaffd'
       }
     });
   };
 
   // When App component mounts, get movie data from tmdb using "discover" action and store it in state
   componentDidMount() {
-    this.getMovies("discover");
+    this.getMovies('discover');
   }
 
   // When SearchBar component is submitted, get movie data from tmdb using "search" action and input query and store it in state
-  onFormSubmit = (input) => {
-    this.getMovies("search", input);
+  onSearchSubmit = (input) => {
+    this.getMovies('search', input);
   };
 
   onClickMovieItem = async (movie) => {
@@ -66,15 +64,12 @@ class App extends React.Component {
     if (this.state.dataLoaded) {
       return (
         <div>
-          <NavBar onFormSubmit={this.onFormSubmit} />
+          <NavBar onSearchSubmit={this.onSearchSubmit} />
           <FeaturedMovie
             featuredMovie={this.state.featuredMovie}
             featuredMovieTrailer={this.state.featuredMovieTrailer}
           />
-          <MoviesList
-            movies={this.state.movies}
-            onClickMovieItem={this.onClickMovieItem}
-          />
+          <MoviesList movies={this.state.movies} onClickMovieItem={this.onClickMovieItem} />
           <Footer />
         </div>
       );

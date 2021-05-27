@@ -1,42 +1,29 @@
-import React from "react";
-import "./css/FeaturedMovie.css";
+import React from 'react';
+import './css/FeaturedMovie.css';
 
-const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
+const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer = 'jBa_aHwCbC4' }) => {
+  console.log(featuredMovieTrailer);
   const backdrop_path = `https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}`;
   const featuredMovieTrailerURL = `https://www.youtube.com/embed/${featuredMovieTrailer.key}`;
   const stars = [];
 
   for (let i = 0; i < 10; i++) {
-    if (
-      i < featuredMovie.vote_average &&
-      featuredMovie.vote_average - i < 1 &&
-      featuredMovie.vote_average - i > 0
-    ) {
+    if (i < featuredMovie.vote_average && featuredMovie.vote_average - i < 1 && featuredMovie.vote_average - i > 0) {
       stars.push(<i className="star half icon" key={`star${i}`}></i>);
-    } else if (
-      i < featuredMovie.vote_average &&
-      featuredMovie.vote_average - i > 0
-    ) {
+    } else if (i < featuredMovie.vote_average && featuredMovie.vote_average - i > 0) {
       stars.push(<i className="star icon" key={`star${i}`}></i>);
-    } else {
-      stars.push(<i className="star outline icon" key={`star${i}`}></i>);
     }
   }
 
   return (
-    <div
-      className="featured-movie"
-      style={{ backgroundImage: `url(${backdrop_path})` }}
-    >
+    <div className="featured-movie" style={{ backgroundImage: `url(${backdrop_path})` }}>
       <div className="featured-movie-info">
         <h1 className="featured-movie-title">{featuredMovie.title}</h1>
         <p className="featured-movie-overview">{featuredMovie.overview}</p>
         <div className="featured-movie-rating">
           <p className="stars">
             {stars}
-            <span className="featured-movie-average">
-              {featuredMovie.vote_average}
-            </span>
+            <span className="featured-movie-average">{featuredMovie.vote_average}</span>
           </p>
         </div>
         <iframe

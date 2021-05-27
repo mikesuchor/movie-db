@@ -1,45 +1,45 @@
-import React from "react";
-import SearchBar from "./SearchBar";
-import "./css/NavBar.css";
+import React from 'react';
+import SearchBar from './SearchBar';
+import './css/NavBar.css';
 
 const toggleSearchInput = () => {
-  const searchBarElement = document.querySelector(".search-bar");
-  if (searchBarElement.style.display === "none") {
-    searchBarElement.style.display = "block";
+  const searchBarElement = document.querySelector('.search-bar');
+  if (!searchBarElement.style.display || searchBarElement.style.display === 'none') {
+    searchBarElement.style.display = 'block';
   } else {
-    searchBarElement.style.display = "none";
+    searchBarElement.style.display = 'none';
   }
 };
 
 const NavBar = (props) => {
   return (
     <div className="ui secondary menu">
-      <a className="item" href="/">
+      <button className="item">
         <i className="home icon"></i>
-        Home
-      </a>
-      <a className="item" href="/movies">
+        HOME
+      </button>
+      <button className="item">
         <i className="film icon"></i>
-        Movies
-      </a>
-      <a className="item" href="/tv">
+        MOVIES
+      </button>
+      <button className="item">
         <i className="tv icon"></i>
-        TV Shows
-      </a>
+        TV SHOWS
+      </button>
       <div className="right menu">
-        <SearchBar onFormSubmit={props.onFormSubmit} />
-        <a className="item" href="#" onClick={() => toggleSearchInput()}>
+        <SearchBar onSearchSubmit={props.onSearchSubmit} />
+        <button className="item" onClick={() => toggleSearchInput()}>
           <i className="search icon"></i>
-          Search
-        </a>
-        <a className="item" href="/mylist">
+          SEARCH
+        </button>
+        <button className="item">
           <i className="plus icon"></i>
-          My List
-        </a>
-        <a className="item" href="/profile">
+          MY LIST
+        </button>
+        <button className="item" href="/profile">
           <i className="user icon"></i>
-          Profile
-        </a>
+          PROFILE
+        </button>
       </div>
     </div>
   );

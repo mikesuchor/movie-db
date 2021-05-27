@@ -4,9 +4,9 @@ import "./css/SearchBar.css";
 class SearchBar extends React.Component {
   state = { input: "" };
 
-  onFormSubmit = (event) => {
+  onSearchSubmit = (event) => {
     event.preventDefault();
-    this.props.onFormSubmit(this.state.input);
+    this.props.onSearchSubmit(this.state.input);
   };
 
   onChangeInput = (event) => {
@@ -18,7 +18,7 @@ class SearchBar extends React.Component {
       <div className="search-bar ui search">
         <form
           className="search-form ui icon input"
-          onSubmit={this.onFormSubmit}
+          onSubmit={this.onSearchSubmit}
         >
           <i className="search icon"></i>
           <input

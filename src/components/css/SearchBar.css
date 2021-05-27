@@ -3,15 +3,15 @@
 }
 
 form.ui.input > input {
-  border: 2px solid #fff;
+  border: 2px solid #fdfdfe;
   border-radius: 20px;
   background: none;
-  color: #fff;
+  color: #fdfdfe;
 }
 
 form.ui.input > input:focus {
-  border: 2px solid goldenrod;
+  border: 2px solid #eebf10;
   background: none;
-  color: goldenrod;
+  color: #eebf10;
   text-transform: capitalize;
 }
