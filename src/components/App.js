@@ -26,10 +26,22 @@ class App extends React.Component {
         with_genres
       }
     });
+    const movies2 = await tmdb.get(`/3/${action}/movie`, {
+      params: {
+        api_key: '1155f6c239cb4332df695fcf245eaffd',
+        include_adult: false,
+        include_video: false,
+        query,
+        'vote_count.gte': 100,
+        with_genres,
+        page: 2
+      }
+    });
+    console.log(movies);
     const featuredMovieTrailer = await this.getTrailer(movies.data.results[0].id);
     this.setState({
       dataLoaded: true,
-      movies: movies.data.results,
+      movies: [...movies.data.results, ...movies2.data.results],
       featuredMovie: movies.data.results[0],
       featuredMovieTrailer: featuredMovieTrailer.data.results[0]
     });

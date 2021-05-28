@@ -1,5 +1,5 @@
-import React from "react";
-import "./css/Footer.css";
+import React from 'react';
+import './css/Footer.css';
 
 const Footer = () => {
   return (
@@ -15,11 +15,7 @@ const Footer = () => {
           <i className="envelope square icon big"></i>
         </a>
         <a href="https://www.themoviedb.org/">
-          <img
-            className="tmdb_logo"
-            src="tmdb_logo.png"
-            alt="the movie database logo"
-          />
+          <img className="tmdb_logo" src="tmdb_logo.svg" alt="the movie database logo" />
         </a>
       </div>
       <p>Designed and created by Michael Suchorolski &copy; 2019</p>
