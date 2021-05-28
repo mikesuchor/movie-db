@@ -80,6 +80,7 @@ class App extends React.Component {
       featuredMovie: movie,
       featuredMovieTrailer: clickedMovieTrailer.data.results[0]
     });
+    window.scrollTo(0, 0);
   };
 
   render() {

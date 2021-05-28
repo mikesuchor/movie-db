@@ -1,8 +1,8 @@
-import React from "react";
-import "./css/SearchBar.css";
+import React from 'react';
+import './css/SearchBar.css';
 
 class SearchBar extends React.Component {
-  state = { input: "" };
+  state = { input: '' };
 
   onSearchSubmit = (event) => {
     event.preventDefault();
@@ -16,10 +16,7 @@ class SearchBar extends React.Component {
   render() {
     return (
       <div className="search-bar ui search">
-        <form
-          className="search-form ui icon input"
-          onSubmit={this.onSearchSubmit}
-        >
+        <form className="search-form ui icon input" onSubmit={this.onSearchSubmit}>
           <i className="search icon"></i>
           <input
             className="search-field"
