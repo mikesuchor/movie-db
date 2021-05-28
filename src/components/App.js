@@ -123,7 +123,7 @@ class App extends React.Component {
             featuredMovie={this.state.featuredMovie}
             featuredMovieTrailer={this.state.featuredMovieTrailer}
           />
-          {this.state.favorites !== null (
+          {this.state.favorites.length === null ? (
             <FavoritesList
               favorites={this.state.favorites}
               onAddFavorite={this.onAddFavorite}
