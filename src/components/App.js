@@ -56,10 +56,18 @@ class App extends React.Component {
     });
   };
 
-  // When App component mounts, get movie data from tmdb using "discover" action and store it in state
+  // When App component mounts, get movie data from tmdb using "discover" action and get favorites from local storage
   componentDidMount() {
     this.getMovies('discover');
+    const favorites = JSON.parse(localStorage.getItem('movie-database-favorites'));
+    this.setState({
+      favorites
+    });
   }
+
+  saveToLocalStorage = (movies) => {
+    localStorage.setItem('movie-database-favorites', JSON.stringify(movies));
+  };
 
   // When a genre is selected, get movie data
   onSelectGenre = (genre, id) => {
@@ -74,15 +82,18 @@ class App extends React.Component {
     this.getMovies('search', input);
   };
 
-  // When the add favorite button is clicked, checks for duplicates then adds to the favorite list
+  // When the add favorite button is clicked, checks for duplicates then add to the favorite list and to local storage
   onAddFavorite = (movie) => {
     if (!this.state.favorites.some((favorite) => favorite.id === movie.id)) {
+      const newFavoritesList = [...this.state.favorites, movie];
       this.setState({
-        favorites: [...this.state.favorites, movie]
+        favorites: newFavoritesList
       });
+      this.saveToLocalStorage(newFavoritesList);
     }
   };
 
+  // When the remove favorite button is clicked, checks the favorites list for the movie then remove from the favorite list and from local storage
   onRemoveFavorite = (movie) => {
     const newFavoritesList = this.state.favorites.filter((favorite) => {
       return favorite.id !== movie.id;
@@ -90,6 +101,7 @@ class App extends React.Component {
     this.setState({
       favorites: newFavoritesList
     });
+    this.saveToLocalStorage(newFavoritesList);
   };
 
   // When a Movie is clicked update the featured movie with the movie data and trailer
