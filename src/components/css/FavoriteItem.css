@@ -1,4 +1,4 @@
-.movie-item {
+.favorite-item {
   position: relative;
   width: 200px;
   text-align: center;
@@ -7,28 +7,32 @@
   margin: 0 10px 20px;
 }
 
-.movie-item:hover {
+.favorite-item:hover {
   background: #fdfdfe;
   cursor: pointer;
 }
 
-.movie-item .movie-poster {
+.favorite-item .favorite-poster {
   width: 185px;
   height: 278px;
 }
 
-.movie-favorite {
+.favorite-heart {
   position: absolute;
   top: 12px;
   left: 12px;
   padding: 4px;
 }
 
-.movie-favorite .heart:hover {
+.favorite-heart .heart {
   color: #bf2f1b;
 }
 
-.movie-vote-average {
+.heart:hover {
+  color: #fdfdfe;
+}
+
+.favorite-vote-average {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -37,7 +41,7 @@
   border-radius: 3px;
 }
 
-.movie-vote-average .star {
+.favorite-vote-average .star {
   font-size: 12px;
   color: #eebf10;
   margin-right: 6px;
