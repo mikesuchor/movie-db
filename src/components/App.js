@@ -2,6 +2,7 @@ import React from 'react';
 import NavBar from './NavBar';
 import FeaturedMovie from './FeaturedMovie';
 import MoviesList from './MoviesList';
+import FavoritesList from './FavoritesList';
 import Footer from './Footer';
 import tmdb from '../api/tmdb';
 import './css/App.css';
@@ -10,6 +11,7 @@ class App extends React.Component {
   state = {
     dataLoaded: false,
     movies: [],
+    favorites: [],
     featuredMovie: '',
     featuredMovieTrailer: '',
     genre: ''
@@ -37,7 +39,6 @@ class App extends React.Component {
         page: 2
       }
     });
-    console.log(movies);
     const featuredMovieTrailer = await this.getTrailer(movies.data.results[0].id);
     this.setState({
       dataLoaded: true,
@@ -73,6 +74,24 @@ class App extends React.Component {
     this.getMovies('search', input);
   };
 
+  // When the add favorite button is clicked, checks for duplicates then adds to the favorite list
+  onAddFavorite = (movie) => {
+    if (!this.state.favorites.some((favorite) => favorite.id === movie.id)) {
+      this.setState({
+        favorites: [...this.state.favorites, movie]
+      });
+    }
+  };
+
+  onRemoveFavorite = (movie) => {
+    const newFavoritesList = this.state.favorites.filter((favorite) => {
+      return favorite.id !== movie.id;
+    });
+    this.setState({
+      favorites: newFavoritesList
+    });
+  };
+
   // When a Movie is clicked update the featured movie with the movie data and trailer
   onClickMovieItem = async (movie) => {
     const clickedMovieTrailer = await this.getTrailer(movie.id);
@@ -92,7 +111,20 @@ class App extends React.Component {
             featuredMovie={this.state.featuredMovie}
             featuredMovieTrailer={this.state.featuredMovieTrailer}
           />
-          <MoviesList genre={this.state.genre} movies={this.state.movies} onClickMovieItem={this.onClickMovieItem} />
+          {this.state.favorites.length ? (
+            <FavoritesList
+              favorites={this.state.favorites}
+              onAddFavorite={this.onAddFavorite}
+              onRemoveFavorite={this.onRemoveFavorite}
+              onClickMovieItem={this.onClickMovieItem}
+            />
+          ) : null}
+          <MoviesList
+            genre={this.state.genre}
+            movies={this.state.movies}
+            onAddFavorite={this.onAddFavorite}
+            onClickMovieItem={this.onClickMovieItem}
+          />
           <Footer />
         </div>
       );
