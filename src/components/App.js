@@ -16,7 +16,7 @@ class App extends React.Component {
   };
 
   getMovies = async (action, query = '', with_genres = '') => {
-    const movies = await tmdb.get(`/3/${action}/movie/`, {
+    const movies = await tmdb.get(`/3/${action}/movie`, {
       params: {
         api_key: '1155f6c239cb4332df695fcf245eaffd',
         include_adult: false,
