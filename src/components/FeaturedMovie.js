@@ -6,6 +6,7 @@ const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer = 'jBa_aHwCbC4' }) 
   const backdrop_path = `https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}`;
   const featuredMovieTrailerURL = `https://www.youtube.com/embed/${featuredMovieTrailer.key}`;
   const stars = [];
+  console.log(featuredMovie);
 
   for (let i = 0; i < 10; i++) {
     if (i < featuredMovie.vote_average && featuredMovie.vote_average - i < 1 && featuredMovie.vote_average - i > 0) {
@@ -30,7 +31,7 @@ const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer = 'jBa_aHwCbC4' }) 
           className="featured-movie-trailer"
           title={featuredMovieTrailer.name}
           width="100%"
-          height="400px"
+          height="450px"
           src={featuredMovieTrailerURL}
           frameBorder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"

@@ -48,6 +48,7 @@ class App extends React.Component {
     this.getMovies('discover');
   }
 
+  // When a genre is selected, get movie data
   onSelectGenre = (genre, id) => {
     this.getMovies('discover', '', id);
     this.setState({
@@ -60,6 +61,7 @@ class App extends React.Component {
     this.getMovies('search', input);
   };
 
+  // When a Movie is clicked update the featured movie with the movie data and trailer
   onClickMovieItem = async (movie) => {
     const clickedMovieTrailer = await this.getTrailer(movie.id);
     this.setState({
