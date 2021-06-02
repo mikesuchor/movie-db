@@ -60,9 +60,11 @@ class App extends React.Component {
   componentDidMount() {
     this.getMovies('discover');
     const favorites = JSON.parse(localStorage.getItem('movie-database-favorites'));
-    this.setState({
-      favorites
-    });
+    if (favorites) {
+      this.setState({
+        favorites
+      });
+    }
   }
 
   saveToLocalStorage = (movies) => {
