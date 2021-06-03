@@ -10,8 +10,8 @@ const FavoriteItem = ({ movie, onRemoveFavorite, onClickMovieItem }) => {
         <i className="star icon"></i>
         {movie.vote_average}
       </p>
-      <p className="favorite-heart">
-        <i className="heart icon" onClick={() => onRemoveFavorite(movie)}></i>
+      <p className="favorite-close">
+        <i className="close icon" onClick={() => onRemoveFavorite(movie)}></i>
       </p>
     </div>
   );

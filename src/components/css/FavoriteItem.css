@@ -17,19 +17,19 @@
   height: 278px;
 }
 
-.favorite-heart {
+.favorite-close {
   position: absolute;
   top: 12px;
   left: 12px;
   padding: 4px;
 }
 
-.favorite-heart .heart {
-  color: #bf2f1b;
+.favorite-close .close {
+  color: #fdfdfe;
 }
 
-.heart:hover {
-  color: #fdfdfe;
+.close:hover {
+  color: #aaaaaa;
 }
 
 .favorite-vote-average {
