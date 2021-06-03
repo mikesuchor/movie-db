@@ -1,5 +1,6 @@
 .favorites-section {
-  border-top: 1px solid white;
+  border-top: 1px solid #fdfdfe;
+  background: #0d253f;
 }
 
 .favorites-section h2 {
@@ -12,7 +13,7 @@
 
 .favorites-list {
   outline: none;
-  margin: 20px auto;
+  padding: 20px 0;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
