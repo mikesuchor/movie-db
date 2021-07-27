@@ -11,7 +11,10 @@ const MovieItem = ({ movie, onAddFavorite, onClickMovieItem }) => {
         {movie.vote_average}
       </p>
       <p className="movie-favorite">
-        <i className="heart icon" onClick={() => onAddFavorite(movie)}></i>
+        <i className="plus circle icon" onClick={() => onAddFavorite(movie)}></i>
+      </p>
+      <p className="movie-hide">
+        <i className="minus circle icon"></i>
       </p>
     </div>
   );

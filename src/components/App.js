@@ -12,6 +12,7 @@ class App extends React.Component {
     dataLoaded: false,
     movies: [],
     favorites: [],
+    hidden: [],
     featuredMovie: '',
     featuredMovieTrailer: '',
     genre: ''

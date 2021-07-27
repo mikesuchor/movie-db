@@ -3,12 +3,12 @@
   width: 200px;
   text-align: center;
   padding: 8px;
-  background: #22848d;
+  background: #000000;
   margin: 0 10px 20px;
 }
 
 .movie-item:hover {
-  background: #fdfdfe;
+  background: #22848d;
   cursor: pointer;
 }
 
@@ -17,15 +17,21 @@
   height: 278px;
 }
 
-.movie-favorite {
-  position: absolute;
-  top: 12px;
-  left: 12px;
+.movie-favorite,
+.movie-hide {
   padding: 4px;
+  display: inline-block;
 }
 
-.movie-favorite .heart:hover {
-  color: #bf2f1b;
+.movie-favorite i,
+.movie-hide i {
+  color: #eebf10;
+  font-size: 40px;
+}
+
+.movie-favorite i:hover,
+.movie-hide i:hover {
+  color: goldenrod;
 }
 
 .movie-vote-average {

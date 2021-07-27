@@ -3,12 +3,12 @@
   width: 200px;
   text-align: center;
   padding: 8px;
-  background: #22848d;
+  background: #000000;
   margin: 0 10px 20px;
 }
 
 .favorite-item:hover {
-  background: #fdfdfe;
+  background: #22848d;
   cursor: pointer;
 }
 
