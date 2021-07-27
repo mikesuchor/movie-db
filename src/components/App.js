@@ -156,14 +156,14 @@ class App extends React.Component {
             onRemoveFavorite={this.onRemoveFavorite}
             onClickMovieItem={this.onClickMovieItem}
           />
-          <HiddenList hidden={this.state.hidden} onClickMovieItem={this.onClickMovieItem} />
           <MoviesList
             genre={this.state.genre}
             movies={this.state.movies}
             onAddFavorite={this.onAddFavorite}
             onClickMovieItem={this.onClickMovieItem}
             onHideMovie={this.onHideMovie}
-          />
+          />{' '}
+          <HiddenList hiddenList={this.state.hidden} onClickMovieItem={this.onClickMovieItem} />
           <Footer />
         </div>
       );

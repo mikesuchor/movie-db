@@ -1,6 +1,8 @@
 .hidden-section {
   border-top: 1px solid #fdfdfe;
+  border-bottom: 1px solid #fdfdfe;
   background: #0d253f;
+  padding-bottom: 15px;
 }
 
 .hidden-section h2 {
@@ -18,4 +20,14 @@
   flex-wrap: nowrap;
   justify-content: center;
   overflow-x: auto;
+}
+
+.hidden-section i.icon {
+  font-size: 32px;
+  display: block;
+  margin: auto;
+}
+
+.hidden-section i.icon:hover {
+  cursor: pointer;
 }
