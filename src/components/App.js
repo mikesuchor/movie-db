@@ -41,9 +41,20 @@ class App extends React.Component {
       }
     });
     const featuredMovieTrailer = await this.getTrailer(movies.data.results[0].id);
+
+    const combinedMovies = [...movies.data.results, ...movies2.data.results];
+
+    var oneIDs = this.state.hidden.map(function (a) {
+      return a.id;
+    });
+
+    const filteredMovies = combinedMovies.filter(function (a) {
+      return oneIDs.indexOf(a.id) === -1;
+    });
+
     this.setState({
       dataLoaded: true,
-      movies: [...movies.data.results, ...movies2.data.results],
+      movies: filteredMovies,
       featuredMovie: movies.data.results[0],
       featuredMovieTrailer: featuredMovieTrailer.data.results[0]
     });
@@ -61,15 +72,17 @@ class App extends React.Component {
   componentDidMount() {
     this.getMovies('discover');
     const favorites = JSON.parse(localStorage.getItem('movie-database-favorites'));
+    const hidden = JSON.parse(localStorage.getItem('movie-database-hidden'));
     if (favorites) {
       this.setState({
-        favorites
+        favorites,
+        hidden
       });
     }
   }
 
-  saveToLocalStorage = (movies) => {
-    localStorage.setItem('movie-database-favorites', JSON.stringify(movies));
+  saveToLocalStorage = (type, movies) => {
+    localStorage.setItem(`movie-database-${type}`, JSON.stringify(movies));
   };
 
   // When a genre is selected, get movie data
@@ -92,7 +105,7 @@ class App extends React.Component {
       this.setState({
         favorites: newFavoritesList
       });
-      this.saveToLocalStorage(newFavoritesList);
+      this.saveToLocalStorage('favorites', newFavoritesList);
     }
   };
 
@@ -104,7 +117,7 @@ class App extends React.Component {
     this.setState({
       favorites: newFavoritesList
     });
-    this.saveToLocalStorage(newFavoritesList);
+    this.saveToLocalStorage('favorites', newFavoritesList);
   };
 
   // When a Movie is clicked update the featured movie with the movie data and trailer
@@ -115,6 +128,16 @@ class App extends React.Component {
       featuredMovieTrailer: clickedMovieTrailer.data.results[0]
     });
     window.scrollTo(0, 0);
+  };
+
+  onHideMovie = (movie) => {
+    if (!this.state.hidden.some((hidden) => hidden.id === movie.id)) {
+      const newHiddenList = [...this.state.hidden, movie];
+      this.setState({
+        hidden: newHiddenList
+      });
+      this.saveToLocalStorage('hidden', newHiddenList);
+    }
   };
 
   render() {
@@ -137,6 +160,7 @@ class App extends React.Component {
             movies={this.state.movies}
             onAddFavorite={this.onAddFavorite}
             onClickMovieItem={this.onClickMovieItem}
+            onHideMovie={this.onHideMovie}
           />
           <Footer />
         </div>
