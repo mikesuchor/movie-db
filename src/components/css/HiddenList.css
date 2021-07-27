@@ -1,0 +1,21 @@
+.hidden-section {
+  border-top: 1px solid #fdfdfe;
+  background: #0d253f;
+}
+
+.hidden-section h2 {
+  margin-top: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.hidden-list {
+  outline: none;
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  overflow-x: auto;
+}

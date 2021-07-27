@@ -3,6 +3,7 @@ import NavBar from './NavBar';
 import FeaturedMovie from './FeaturedMovie';
 import MoviesList from './MoviesList';
 import FavoritesList from './FavoritesList';
+import HiddenList from './HiddenList';
 import Footer from './Footer';
 import tmdb from '../api/tmdb';
 import './css/App.css';
@@ -155,6 +156,7 @@ class App extends React.Component {
             onRemoveFavorite={this.onRemoveFavorite}
             onClickMovieItem={this.onClickMovieItem}
           />
+          <HiddenList hidden={this.state.hidden} onClickMovieItem={this.onClickMovieItem} />
           <MoviesList
             genre={this.state.genre}
             movies={this.state.movies}

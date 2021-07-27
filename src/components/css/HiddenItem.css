@@ -1,0 +1,33 @@
+.hidden-item {
+  position: relative;
+  width: 200px;
+  text-align: center;
+  padding: 8px;
+  background: #000000;
+  margin: 0 10px 20px;
+}
+
+.hidden-item:hover {
+  background: #22848d;
+  cursor: pointer;
+}
+
+.hidden-item .hidden-poster {
+  width: 185px;
+  height: 278px;
+}
+
+.hidden-vote-average {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 3px;
+}
+
+.hidden-vote-average .star {
+  font-size: 12px;
+  color: #eebf10;
+  margin-right: 6px;
+}
