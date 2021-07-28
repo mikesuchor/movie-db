@@ -43,19 +43,13 @@ class App extends React.Component {
     });
     const featuredMovieTrailer = await this.getTrailer(movies.data.results[0].id);
 
-    const combinedMovies = [...movies.data.results, ...movies2.data.results];
+    const fetchedMovies = [...movies.data.results, ...movies2.data.results];
 
-    var oneIDs = this.state.hidden.map(function (a) {
-      return a.id;
-    });
-
-    const filteredMovies = combinedMovies.filter(function (a) {
-      return oneIDs.indexOf(a.id) === -1;
-    });
+    const filteredMovies = this.compareHiddenMovies(this.state.hidden, fetchedMovies);
 
     this.setState({
       dataLoaded: true,
-      movies: filteredMovies,
+      movies: filteredMovies ? filteredMovies : fetchedMovies,
       featuredMovie: movies.data.results[0],
       featuredMovieTrailer: featuredMovieTrailer.data.results[0]
     });
@@ -138,6 +132,18 @@ class App extends React.Component {
         hidden: newHiddenList
       });
       this.saveToLocalStorage('hidden', newHiddenList);
+    }
+  };
+
+  compareHiddenMovies = (hiddenMovies, moviesList) => {
+    if (this.state.hidden.length) {
+      const hiddenMovieIDs = hiddenMovies.map(function (a) {
+        return a.id;
+      });
+
+      return moviesList.filter(function (a) {
+        return hiddenMovieIDs.indexOf(a.id) === -1;
+      });
     }
   };
 
