@@ -3,7 +3,7 @@ import FavoriteItem from './FavoriteItem';
 import './css/FavoritesList.css';
 
 const FavoritesList = ({ favorites, onRemoveFavorite, onClickMovieItem }) => {
-  if (favorites.length) {
+  if (favorites && favorites.length) {
     const renderedList = favorites.map((movie) => {
       return (
         <FavoriteItem
