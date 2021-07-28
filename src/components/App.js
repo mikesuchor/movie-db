@@ -136,7 +136,7 @@ class App extends React.Component {
   };
 
   compareHiddenMovies = (hiddenMovies, moviesList) => {
-    if (this.state.hidden.length) {
+    if (this.state.hidden && this.state.hidden.length) {
       const hiddenMovieIDs = hiddenMovies.map(function (a) {
         return a.id;
       });
