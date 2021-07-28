@@ -5,7 +5,7 @@ import './css/HiddenList.css';
 const HiddenList = ({ hiddenList, onClickMovieItem }) => {
   const [hidden, setHidden] = React.useState(false);
 
-  if (hiddenList.length) {
+  if (hiddenList && hiddenList.length) {
     const renderedList = hiddenList.map((movie) => {
       return <HiddenItem key={movie.id} movie={movie} onClickMovieItem={onClickMovieItem} />;
     });
