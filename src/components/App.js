@@ -70,7 +70,11 @@ class App extends React.Component {
     const hidden = JSON.parse(localStorage.getItem('movie-database-hidden'));
     if (favorites) {
       this.setState({
-        favorites,
+        favorites
+      });
+    }
+    if (hidden) {
+      this.setState({
         hidden
       });
     }
