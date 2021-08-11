@@ -17,9 +17,8 @@
   outline: none;
   padding: 20px 0;
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
-  overflow-x: auto;
 }
 
 .hidden-section i.caret {
@@ -30,4 +29,21 @@
 
 .hidden-section i.icon:hover {
   cursor: pointer;
+}
+
+.clear-hidden-btn {
+  display: block;
+  margin: auto;
+  font-family: 'Montserrat', sans-serif;
+  color: #fdfdfe;
+  font-weight: 600;
+  padding: 8px;
+  border: 3px solid #144b5c;
+  border-radius: 16px;
+  background: #144b5c;
+}
+
+.clear-hidden-btn:hover {
+  cursor: pointer;
+  border: 3px solid #fdfdfe;
 }
