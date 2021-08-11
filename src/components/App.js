@@ -153,6 +153,11 @@ class App extends React.Component {
     }
   };
 
+  clearHiddenList = () => {
+    this.setState({ hidden: [] });
+    localStorage.removeItem('movie-database-hidden');
+  };
+
   render() {
     if (this.state.dataLoaded) {
       return (
@@ -175,7 +180,11 @@ class App extends React.Component {
             onClickMovieItem={this.onClickMovieItem}
             onHideMovie={this.onHideMovie}
           />{' '}
-          <HiddenList hiddenList={this.state.hidden} onClickMovieItem={this.onClickMovieItem} />
+          <HiddenList
+            hiddenList={this.state.hidden}
+            onClickMovieItem={this.onClickMovieItem}
+            clearHiddenList={this.clearHiddenList}
+          />
           <Footer />
         </div>
       );
