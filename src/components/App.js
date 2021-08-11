@@ -131,11 +131,13 @@ class App extends React.Component {
 
   onHideMovie = (movie) => {
     if (!this.state.hidden.some((hidden) => hidden.id === movie.id)) {
-      const newHiddenList = [...this.state.hidden, movie];
+      const hiddenList = [...this.state.hidden, movie];
+      const filteredMovieList = this.state.movies.filter((movieObject) => movieObject.id !== movie.id);
       this.setState({
-        hidden: newHiddenList
+        movies: filteredMovieList,
+        hidden: hiddenList
       });
-      this.saveToLocalStorage('hidden', newHiddenList);
+      this.saveToLocalStorage('hidden', hiddenList);
     }
   };
 
