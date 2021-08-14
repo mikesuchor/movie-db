@@ -1,10 +1,31 @@
 import React from 'react';
-import './css/Footer.css';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  margin-top: 20px;
+  text-align: center;
+`;
+
+const Icons = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+`;
+
+const TMDBLogo = styled.img`
+  height: 44px;
+  margin-left: 6px;
+  margin-top: 2px;
+`;
+
+const Copyright = styled.p`
+  margin: 10px 0 20px;
+`;
 
 const Footer = () => {
   return (
-    <div className="footer">
-      <div className="footer-icons">
+    <Container>
+      <Icons>
         <a href="http://www.github.com/mikesuchor">
           <i className="github square icon big"></i>
         </a>
@@ -15,11 +36,11 @@ const Footer = () => {
           <i className="envelope square icon big"></i>
         </a>
         <a href="https://www.themoviedb.org/">
-          <img className="tmdb_logo" src="tmdb_logo.svg" alt="the movie database logo" />
+          <TMDBLogo src="tmdb_logo.svg" alt="the movie database logo" />
         </a>
-      </div>
-      <p>Designed and created by Michael Suchorolski &copy; 2019</p>
-    </div>
+      </Icons>
+      <Copyright>Designed and created by Michael Suchorolski &copy; 2019</Copyright>
+    </Container>
   );
 };
 

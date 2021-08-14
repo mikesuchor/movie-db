@@ -1,6 +1,27 @@
 import React from 'react';
 import FavoriteItem from './FavoriteItem';
-import './css/FavoritesList.css';
+import styled from 'styled-components';
+
+const Favorites = styled.div`
+  border-top: 1px solid #fdfdfe;
+  background: #0d253f;
+`;
+
+const Title = styled.h2`
+  margin-top: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  text-align: center;
+`;
+
+const List = styled.div`
+  outline: none;
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
 
 const FavoritesList = ({ favorites, onRemoveFavorite, onClickMovieItem }) => {
   if (favorites && favorites.length) {
@@ -16,10 +37,10 @@ const FavoritesList = ({ favorites, onRemoveFavorite, onClickMovieItem }) => {
     });
 
     return (
-      <div className="favorites-section">
-        <h2>FAVORITES LIST</h2>
-        <div className="favorites-list">{renderedList}</div>
-      </div>
+      <Favorites>
+        <Title>FAVORITES LIST</Title>
+        <List>{renderedList}</List>
+      </Favorites>
     );
   } else return null;
 };
