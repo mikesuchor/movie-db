@@ -12,24 +12,16 @@ const toggleSearchInput = () => {
   }
 };
 
-const NavBar = (props) => {
+const NavBar = ({ onSelectGenre, onSearchSubmit }) => {
   return (
     <div className="ui secondary menu">
       <button className="item">
         <i className="home icon"></i>
         HOME
       </button>
-      {/* <button className="item" onClick={() => props.onSelectMoviesCategory()}>
-        <i className="film icon"></i>
-        MOVIES
-      </button>
-      <button className="item" onClick={() => props.onSelectTVCategory()}>
-        <i className="tv icon"></i>
-        TV SHOWS
-      </button> */}
-      <Dropdown onSelectGenre={props.onSelectGenre} />
+      <Dropdown onSelectGenre={onSelectGenre} />
       <div className="right menu">
-        <SearchBar onSearchSubmit={props.onSearchSubmit} />
+        <SearchBar onSearchSubmit={onSearchSubmit} />
         <button className="item" onClick={() => toggleSearchInput()}>
           <i className="search icon"></i>
           SEARCH
