@@ -2,10 +2,6 @@ import React from 'react';
 import './css/SearchBar.css';
 import styled from 'styled-components';
 
-const Search = styled.div`
-  display: none;
-`;
-
 const SearchBar = ({ onSearchSubmit }) => {
   const [input, handleInput] = React.useState('');
 
@@ -19,7 +15,7 @@ const SearchBar = ({ onSearchSubmit }) => {
   };
 
   return (
-    <Search className="search-bar ui search">
+    <div className="search-bar ui search">
       <form className="search-form ui icon input" onSubmit={handleSubmit}>
         <i className="search icon"></i>
         <input
@@ -31,7 +27,7 @@ const SearchBar = ({ onSearchSubmit }) => {
           onChange={onChangeInput}
         />
       </form>
-    </Search>
+    </div>
   );
 };
 

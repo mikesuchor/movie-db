@@ -1,3 +1,14 @@
+.ui.secondary.menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 65px;
+  z-index: 10;
+  padding: 10px;
+  margin: 0;
+  background: #144b5c;
+  border-bottom: 1px solid #fdfdfe;
+}
 .ui.secondary.menu button {
   color: #fdfdfe;
 }

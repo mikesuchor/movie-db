@@ -1,3 +1,7 @@
+.search-bar {
+  display: none;
+}
+
 form.ui.input > input {
   border: 2px solid #fdfdfe;
   border-radius: 20px;
