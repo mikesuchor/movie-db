@@ -2,6 +2,19 @@ import React from 'react';
 import Dropdown from './Dropdown';
 import SearchBar from './SearchBar';
 import './css/NavBar.css';
+import styled from 'styled-components';
+
+const Menu = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 65px;
+  z-index: 10;
+  padding: 10px;
+  margin: 0;
+  background: #144b5c;
+  border-bottom: 1px solid #fdfdfe;
+`;
 
 const toggleSearchInput = () => {
   const searchBarElement = document.querySelector('.search-bar');
@@ -14,7 +27,7 @@ const toggleSearchInput = () => {
 
 const NavBar = ({ onSelectGenre, onSearchSubmit }) => {
   return (
-    <div className="ui secondary menu">
+    <Menu className="ui secondary menu">
       <button className="item">
         <i className="home icon"></i>
         HOME
@@ -35,7 +48,7 @@ const NavBar = ({ onSelectGenre, onSearchSubmit }) => {
           PROFILE
         </button>
       </div>
-    </div>
+    </Menu>
   );
 };
 
