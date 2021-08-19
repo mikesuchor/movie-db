@@ -1,6 +1,7 @@
 import React from 'react';
-import MovieItem from './MovieItem';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import MovieItem from './MovieItem';
 
 const Movies = styled.div`
   border-top: 1px solid #fdfdfe;
@@ -41,6 +42,14 @@ const MoviesList = ({ genre, movies, onAddFavorite, onClickMovieItem, onHideMovi
       <List>{renderedList}</List>
     </Movies>
   );
+};
+
+MoviesList.propTypes = {
+  genre: PropTypes.string.isRequired,
+  movies: PropTypes.array.isRequired,
+  onAddFavorite: PropTypes.func.isRequired,
+  onClickMovieItem: PropTypes.func.isRequired,
+  onHideMovie: PropTypes.func.isRequired
 };
 
 export default MoviesList;

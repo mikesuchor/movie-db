@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Movie = styled.div`
   background-size: cover;
@@ -82,6 +83,11 @@ const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer = 'jBa_aHwCbC4' }) 
       </Info>
     </Movie>
   );
+};
+
+FeaturedMovie.propTypes = {
+  featuredMovie: PropTypes.object.isRequired,
+  featuredMovieTrailer: PropTypes.object
 };
 
 export default FeaturedMovie;

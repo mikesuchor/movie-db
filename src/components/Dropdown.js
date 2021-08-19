@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Item = styled.li`
   padding: 12px;
@@ -92,6 +93,10 @@ const Dropdown = ({ onSelectGenre }) => {
       </List>
     </Menu>
   );
+};
+
+Dropdown.propTypes = {
+  onSelectGenre: PropTypes.func.isRequired
 };
 
 export default Dropdown;

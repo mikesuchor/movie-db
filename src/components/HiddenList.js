@@ -1,6 +1,7 @@
 import React from 'react';
-import HiddenItem from './HiddenItem';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import HiddenItem from './HiddenItem';
 
 const Hidden = styled.div`
   border-top: 1px solid #fdfdfe;
@@ -73,6 +74,12 @@ const HiddenList = ({ hiddenList, onClickMovieItem, clearHiddenList }) => {
       </Hidden>
     );
   } else return null;
+};
+
+HiddenList.propTypes = {
+  hiddenList: PropTypes.array.isRequired,
+  onClickMovieItem: PropTypes.func.isRequired,
+  clearHiddenList: PropTypes.func.isRequired
 };
 
 export default HiddenList;

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Hidden = styled.div`
   position: relative;
@@ -46,6 +47,11 @@ const HiddenItem = ({ movie, onClickMovieItem }) => {
       </Rating>
     </Hidden>
   );
+};
+
+HiddenItem.propTypes = {
+  movie: PropTypes.object.isRequired,
+  onClickMovieItem: PropTypes.func.isRequired
 };
 
 export default HiddenItem;

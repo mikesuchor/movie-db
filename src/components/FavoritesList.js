@@ -1,6 +1,7 @@
 import React from 'react';
-import FavoriteItem from './FavoriteItem';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import FavoriteItem from './FavoriteItem';
 
 const Favorites = styled.div`
   border-top: 1px solid #fdfdfe;
@@ -43,6 +44,12 @@ const FavoritesList = ({ favorites, onRemoveFavorite, onClickMovieItem }) => {
       </Favorites>
     );
   } else return null;
+};
+
+FavoritesList.propTypes = {
+  favorites: PropTypes.array.isRequired,
+  onRemoveFavorite: PropTypes.func.isRequired,
+  onClickMovieItem: PropTypes.func.isRequired
 };
 
 export default FavoritesList;

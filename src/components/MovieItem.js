@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Movie = styled.div`
   position: relative;
@@ -81,6 +82,13 @@ const MovieItem = ({ movie, onAddFavorite, onClickMovieItem, onHideMovie }) => {
       </Hide>
     </Movie>
   );
+};
+
+MovieItem.propTypes = {
+  movie: PropTypes.object.isRequired,
+  onAddFavorite: PropTypes.func.isRequired,
+  onClickMovieItem: PropTypes.func.isRequired,
+  onHideMovie: PropTypes.func.isRequired
 };
 
 export default MovieItem;

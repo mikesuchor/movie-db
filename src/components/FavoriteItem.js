@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Favorite = styled.div`
   position: relative;
@@ -65,6 +66,12 @@ const FavoriteItem = ({ movie, onRemoveFavorite, onClickMovieItem }) => {
       </FavoriteClose>
     </Favorite>
   );
+};
+
+FavoriteItem.propTypes = {
+  movie: PropTypes.object.isRequired,
+  onRemoveFavorite: PropTypes.func.isRequired,
+  onClickMovieItem: PropTypes.func.isRequired
 };
 
 export default FavoriteItem;

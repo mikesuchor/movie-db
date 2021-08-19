@@ -1,8 +1,9 @@
 import React from 'react';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
 import SearchBar from './SearchBar';
 import './css/NavBar.css';
-import styled from 'styled-components';
 
 const toggleSearchInput = () => {
   const searchBarElement = document.querySelector('.search-bar');
@@ -38,6 +39,11 @@ const NavBar = ({ onSelectGenre, onSearchSubmit }) => {
       </div>
     </div>
   );
+};
+
+NavBar.propTypes = {
+  onSelectGenre: PropTypes.func.isRequired,
+  onSearchSubmit: PropTypes.func.isRequired
 };
 
 export default NavBar;
