@@ -18,6 +18,12 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   background: rgba(0, 0, 0, 0.9);
+
+  @media (max-width: 850px) {
+    min-width: 0;
+    width: 100%;
+    padding: 25px 15px;
+  }
 `;
 
 const Title = styled.h1`

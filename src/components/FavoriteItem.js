@@ -14,11 +14,20 @@ const Favorite = styled.div`
     background: #22848d;
     cursor: pointer;
   }
+
+  @media (max-width: 850px) {
+    width: 150px;
+  }
 `;
 
 const FavoritePoster = styled.img`
   width: 185px;
   height: 278px;
+
+  @media (max-width: 850px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const FavoriteVote = styled.p`
