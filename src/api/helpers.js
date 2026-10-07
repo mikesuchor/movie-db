@@ -2,7 +2,7 @@
 export const posterUrl = (posterPath) =>
   posterPath
     ? `https://image.tmdb.org/t/p/w185${posterPath}`
-    : `${process.env.PUBLIC_URL}/poster-placeholder.svg`;
+    : `${import.meta.env.BASE_URL}poster-placeholder.svg`;
 
 // TMDB lists videos in no useful order, so prefer official YouTube trailers,
 // then trailers, then teasers, then anything else on YouTube
