@@ -6,7 +6,10 @@ import FavoritesList from './FavoritesList';
 import HiddenList from './HiddenList';
 import Footer from './Footer';
 import tmdb from '../api/tmdb';
+import { pickTrailer } from '../api/helpers';
 import './css/App.css';
+
+const API_KEY = '1155f6c239cb4332df695fcf245eaffd';
 
 class App extends React.Component {
   state = {
@@ -15,52 +18,66 @@ class App extends React.Component {
     favorites: [],
     hidden: [],
     featuredMovie: '',
-    featuredMovieTrailer: '',
-    genre: ''
+    featuredMovieTrailer: undefined,
+    genre: '',
+    query: '',
+    myListOpened: false
   };
 
-  getMovies = async (action, query = '', with_genres = '') => {
-    const movies = await tmdb.get(`/3/${action}/movie`, {
-      params: {
-        api_key: '1155f6c239cb4332df695fcf245eaffd',
-        include_adult: false,
-        include_video: false,
-        query,
-        'vote_count.gte': 100,
-        with_genres
-      }
-    });
-    const movies2 = await tmdb.get(`/3/${action}/movie`, {
-      params: {
-        api_key: '1155f6c239cb4332df695fcf245eaffd',
-        include_adult: false,
-        include_video: false,
-        query,
-        'vote_count.gte': 100,
-        with_genres,
-        page: 2
-      }
-    });
-    const featuredMovieTrailer = await this.getTrailer(movies.data.results[0].id);
+  latestRequest = 0;
+
+  // Returns false if a newer request started meanwhile, so its results aren't overwritten
+  getMovies = async (action, query = '', with_genres = '', updateFeatured = action !== 'search') => {
+    const request = ++this.latestRequest;
+    const params = {
+      api_key: API_KEY,
+      include_adult: false,
+      include_video: false,
+      query,
+      'vote_count.gte': 100,
+      with_genres
+    };
+    const [movies, movies2] = await Promise.all(
+      [1, 2].map((page) => tmdb.get(`/3/${action}/movie`, { params: { ...params, page } }))
+    );
+    if (request !== this.latestRequest) return false;
 
     const fetchedMovies = [...movies.data.results, ...movies2.data.results];
 
+    // TMDB's relevance order buries the well-known matches and also matches inside original
+    // titles ("dune" hits "d'une"), so put titles containing the query as a word first, by popularity
+    if (action === 'search') {
+      const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const titleMatch = new RegExp(`\\b${escaped}\\b`, 'i');
+      const rank = (movie) => (titleMatch.test(movie.title) ? 0 : 1);
+      fetchedMovies.sort((a, b) => rank(a) - rank(b) || b.popularity - a.popularity);
+    }
+
     const filteredMovies = this.compareHiddenMovies(this.state.hidden, fetchedMovies);
 
-    this.setState({
+    const newState = {
       dataLoaded: true,
-      movies: filteredMovies ? filteredMovies : fetchedMovies,
-      featuredMovie: movies.data.results[0],
-      featuredMovieTrailer: featuredMovieTrailer.data.results[0]
-    });
+      movies: filteredMovies ? filteredMovies : fetchedMovies
+    };
+
+    // Searching keeps the current featured movie; browsing features the top result
+    if (updateFeatured && movies.data.results.length) {
+      newState.featuredMovie = movies.data.results[0];
+      newState.featuredMovieTrailer = await this.getTrailer(newState.featuredMovie.id);
+      if (request !== this.latestRequest) return false;
+    }
+
+    this.setState(newState);
+    return true;
   };
 
-  getTrailer = async (movie) => {
-    return tmdb.get(`/3/movie/${movie}/videos`, {
+  getTrailer = async (movieId) => {
+    const videos = await tmdb.get(`/3/movie/${movieId}/videos`, {
       params: {
-        api_key: '1155f6c239cb4332df695fcf245eaffd'
+        api_key: API_KEY
       }
     });
+    return pickTrailer(videos.data.results);
   };
 
   // When App component mounts, get movie data from tmdb using "discover" action and get favorites from local storage
@@ -88,13 +105,34 @@ class App extends React.Component {
   onSelectGenre = (genre, id) => {
     this.getMovies('discover', '', id);
     this.setState({
-      genre
+      genre,
+      query: ''
     });
   };
 
-  // When SearchBar component is submitted, get movie data from tmdb using "search" action and input query and store it in state
-  onSearchSubmit = (input) => {
-    this.getMovies('search', input);
+  // When HOME is clicked, go back to trending movies across all genres
+  onGoHome = () => {
+    this.getMovies('discover');
+    this.setState({
+      genre: '',
+      query: ''
+    });
+    window.scrollTo(0, 0);
+  };
+
+  // When SearchBar component is submitted, get movie data from tmdb using "search" action and scroll to the results
+  onSearchSubmit = async (input) => {
+    const query = input.trim();
+    if (!query) {
+      this.onSearchClear();
+      return;
+    }
+    if (!(await this.getMovies('search', query))) return;
+    this.setState({
+      genre: '',
+      query
+    });
+    document.getElementById('movies-list').scrollIntoView();
   };
 
   // When the add favorite button is clicked, checks for duplicates then add to the favorite list and to local storage
@@ -119,12 +157,29 @@ class App extends React.Component {
     this.saveToLocalStorage('favorites', newFavoritesList);
   };
 
+  // When the search is emptied, go back to trending movies but keep the featured movie
+  onSearchClear = async () => {
+    if (!this.state.query) return;
+    if (!(await this.getMovies('discover', '', '', false))) return;
+    this.setState({
+      genre: '',
+      query: ''
+    });
+  };
+
+  // When MY LIST is clicked, scroll up to the favorites list (shown even if empty)
+  onShowMyList = () => {
+    this.setState({ myListOpened: true }, () => {
+      document.getElementById('favorites-list').scrollIntoView();
+    });
+  };
+
   // When a Movie is clicked update the featured movie with the movie data and trailer
   onClickMovieItem = async (movie) => {
     const clickedMovieTrailer = await this.getTrailer(movie.id);
     this.setState({
       featuredMovie: movie,
-      featuredMovieTrailer: clickedMovieTrailer.data.results[0]
+      featuredMovieTrailer: clickedMovieTrailer
     });
     window.scrollTo(0, 0);
   };
@@ -162,19 +217,27 @@ class App extends React.Component {
     if (this.state.dataLoaded) {
       return (
         <div>
-          <NavBar onSelectGenre={this.onSelectGenre} onSearchSubmit={this.onSearchSubmit} />
+          <NavBar
+            onGoHome={this.onGoHome}
+            onSelectGenre={this.onSelectGenre}
+            onSearchSubmit={this.onSearchSubmit}
+            onSearchClear={this.onSearchClear}
+            onShowMyList={this.onShowMyList}
+          />
           <FeaturedMovie
             featuredMovie={this.state.featuredMovie}
             featuredMovieTrailer={this.state.featuredMovieTrailer}
           />
           <FavoritesList
             favorites={this.state.favorites}
+            showEmpty={this.state.myListOpened}
             onAddFavorite={this.onAddFavorite}
             onRemoveFavorite={this.onRemoveFavorite}
             onClickMovieItem={this.onClickMovieItem}
           />
           <MoviesList
             genre={this.state.genre}
+            query={this.state.query}
             movies={this.state.movies}
             onAddFavorite={this.onAddFavorite}
             onClickMovieItem={this.onClickMovieItem}

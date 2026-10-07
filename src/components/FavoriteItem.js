@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { posterUrl, formatRating } from '../api/helpers';
 
 const Favorite = styled.div`
   position: relative;
@@ -26,7 +27,8 @@ const FavoritePoster = styled.img`
 
   @media (max-width: 850px) {
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
   }
 `;
 
@@ -45,33 +47,41 @@ const FavoriteVote = styled.p`
   }
 `;
 
-const FavoriteClose = styled.p`
+const FavoriteClose = styled.button`
   position: absolute;
   top: 12px;
   left: 12px;
   padding: 4px;
+  border: 0;
+  background: none;
+  cursor: pointer;
 
   .close {
     color: #fdfdfe;
+    margin: 0;
+  }
 
-    &:hover {
-      cursor: pointer;
-      color: #aaaaaa;
-    }
+  &:hover .close {
+    color: #db2828;
   }
 `;
 
 const FavoriteItem = ({ movie, onRemoveFavorite, onClickMovieItem }) => {
-  const poster_path = `http://image.tmdb.org/t/p/w185/${movie.poster_path}`;
+  const poster_path = posterUrl(movie.poster_path);
   return (
     <Favorite>
       <FavoritePoster src={poster_path} alt={movie.title} onClick={() => onClickMovieItem(movie)} />
       <FavoriteVote>
         <i className="star icon"></i>
-        {movie.vote_average}
+        {formatRating(movie.vote_average)}
       </FavoriteVote>
-      <FavoriteClose>
-        <i className="close icon" onClick={() => onRemoveFavorite(movie)}></i>
+      <FavoriteClose
+        type="button"
+        aria-label={`Remove ${movie.title} from favorites`}
+        title="Remove from favorites"
+        onClick={() => onRemoveFavorite(movie)}
+      >
+        <i className="close icon"></i>
       </FavoriteClose>
     </Favorite>
   );

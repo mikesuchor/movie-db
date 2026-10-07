@@ -1,40 +1,38 @@
 import React from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
 import SearchBar from './SearchBar';
 import './css/NavBar.css';
 
-const toggleSearchInput = () => {
-  const searchBarElement = document.querySelector('.search-bar');
-  if (!searchBarElement.style.display || searchBarElement.style.display === 'none') {
-    searchBarElement.style.display = 'block';
-  } else {
-    searchBarElement.style.display = 'none';
-  }
-};
+// Labels are hidden on phones (see NavBar.css), so each button also has an aria-label
+const NavBar = ({ onGoHome, onSelectGenre, onSearchSubmit, onSearchClear, onShowMyList }) => {
+  const [searchOpen, setSearchOpen] = React.useState(false);
 
-const NavBar = ({ onSelectGenre, onSearchSubmit }) => {
   return (
     <div className="ui secondary menu">
-      <button className="item">
+      <button className="item" aria-label="Home" onClick={onGoHome}>
         <i className="home icon"></i>
-        HOME
+        <span className="nav-label">HOME</span>
       </button>
       <Dropdown onSelectGenre={onSelectGenre} />
       <div className="right menu">
-        <SearchBar onSearchSubmit={onSearchSubmit} />
-        <button className="item" onClick={() => toggleSearchInput()}>
+        {searchOpen && <SearchBar onSearchSubmit={onSearchSubmit} onSearchClear={onSearchClear} />}
+        <button
+          className="item"
+          aria-label="Search"
+          aria-expanded={searchOpen}
+          onClick={() => setSearchOpen(!searchOpen)}
+        >
           <i className="search icon"></i>
-          SEARCH
+          <span className="nav-label">SEARCH</span>
         </button>
-        <button className="item">
+        <button className="item" aria-label="My list" onClick={onShowMyList}>
           <i className="plus icon"></i>
-          MY LIST
+          <span className="nav-label">MY LIST</span>
         </button>
-        <button className="item" href="/profile">
+        <button className="item" aria-label="Profile">
           <i className="user icon"></i>
-          PROFILE
+          <span className="nav-label">PROFILE</span>
         </button>
       </div>
     </div>
@@ -42,8 +40,11 @@ const NavBar = ({ onSelectGenre, onSearchSubmit }) => {
 };
 
 NavBar.propTypes = {
+  onGoHome: PropTypes.func.isRequired,
   onSelectGenre: PropTypes.func.isRequired,
-  onSearchSubmit: PropTypes.func.isRequired
+  onSearchSubmit: PropTypes.func.isRequired,
+  onSearchClear: PropTypes.func.isRequired,
+  onShowMyList: PropTypes.func.isRequired
 };
 
 export default NavBar;

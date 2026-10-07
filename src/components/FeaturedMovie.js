@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { formatRating } from '../api/helpers';
 
 const Movie = styled.div`
   background-size: cover;
@@ -30,6 +31,10 @@ const Title = styled.h1`
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
   font-size: 46px;
+
+  @media (max-width: 600px) {
+    font-size: 32px;
+  }
 `;
 
 const Overview = styled.p`
@@ -51,12 +56,14 @@ const Rating = styled.div`
 
 const Trailer = styled.iframe`
   margin: auto;
+  width: 100%;
+  max-height: 450px;
+  aspect-ratio: 16 / 9;
 `;
 
-// Blank movie trailer as default for movies which don't have trailers
-const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer = 'jBa_aHwCbC4' }) => {
+// Movies without a YouTube trailer show just the backdrop and details
+const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
   const backdrop_path = `https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}`;
-  const featuredMovieTrailerURL = `https://www.youtube.com/embed/${featuredMovieTrailer.key}`;
   const stars = [];
 
   for (let i = 0; i < 10; i++) {
@@ -74,18 +81,18 @@ const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer = 'jBa_aHwCbC4' }) 
         <Overview>{featuredMovie.overview}</Overview>
         <Rating>
           {stars}
-          <span className="featured-movie-average">{featuredMovie.vote_average}</span>
+          <span className="featured-movie-average">{formatRating(featuredMovie.vote_average)}</span>
         </Rating>
-        <Trailer
-          className="featured-movie-trailer"
-          title={featuredMovieTrailer.name}
-          width="100%"
-          height="450px"
-          src={featuredMovieTrailerURL}
-          frameBorder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
+        {featuredMovieTrailer && (
+          <Trailer
+            className="featured-movie-trailer"
+            title={featuredMovieTrailer.name}
+            src={`https://www.youtube.com/embed/${featuredMovieTrailer.key}`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        )}
       </Info>
     </Movie>
   );

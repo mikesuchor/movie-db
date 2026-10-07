@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { posterUrl, formatRating } from '../api/helpers';
 
 const Hidden = styled.div`
   position: relative;
@@ -26,7 +27,8 @@ const Poster = styled.img`
 
   @media (max-width: 850px) {
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
   }
 `;
 
@@ -46,13 +48,13 @@ const Rating = styled.p`
 `;
 
 const HiddenItem = ({ movie, onClickMovieItem }) => {
-  const poster_path = `http://image.tmdb.org/t/p/w185/${movie.poster_path}`;
+  const poster_path = posterUrl(movie.poster_path);
   return (
     <Hidden>
       <Poster className="hidden-poster" src={poster_path} alt={movie.title} onClick={() => onClickMovieItem(movie)} />
       <Rating>
         <i className="star icon"></i>
-        {movie.vote_average}
+        {formatRating(movie.vote_average)}
       </Rating>
     </Hidden>
   );

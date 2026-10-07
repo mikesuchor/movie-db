@@ -17,3 +17,21 @@
   background: #22848d;
   cursor: pointer;
 }
+
+/* phones: icons only (GENRES keeps its text, it has no icon) */
+@media (max-width: 600px) {
+  .ui.secondary.menu {
+    padding: 10px 4px;
+  }
+  .ui.secondary.menu .nav-label {
+    display: none;
+  }
+  .ui.secondary.menu .item {
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+  }
+  .ui.secondary.menu .item > i.icon {
+    margin: 0;
+    font-size: 1.25em;
+  }
+}

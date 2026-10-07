@@ -1,5 +1,18 @@
-.search-bar {
-  display: none;
+@media (max-width: 600px) {
+  /* drop the search box below the navbar as its own full-width row */
+  .ui.secondary.menu .search-bar {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background: #144b5c;
+    border-bottom: 1px solid #fdfdfe;
+  }
+
+  .ui.secondary.menu .search-bar .search-form {
+    width: 100%;
+  }
 }
 
 form.ui.input > input {
@@ -14,4 +27,11 @@ form.ui.input > input:focus {
   background: #22848d;
   color: #fdfdfe;
   text-transform: capitalize;
+}
+
+/* Semantic UI greys the placeholder (darker still on focus) */
+form.ui.input > input::placeholder,
+form.ui.input > input:focus::placeholder {
+  color: #fdfdfe;
+  opacity: 1;
 }

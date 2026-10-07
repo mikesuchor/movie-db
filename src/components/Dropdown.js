@@ -13,7 +13,6 @@ const Item = styled.li`
 const List = styled.div`
   position: absolute;
   display: none;
-  height: 422px;
   background: #144b5c;
   border: 1px solid #fdfdfe;
 
@@ -21,13 +20,36 @@ const List = styled.div`
     background: #22848d;
     cursor: pointer;
   }
+
+  /* phones: a full-width panel under the navbar */
+  @media (max-width: 600px) {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+
+    & > div {
+      flex: 1;
+    }
+
+    ${Item} {
+      width: auto;
+    }
+  }
 `;
 
+// Opens on tap/click; hover also opens it on devices with a mouse
 const Menu = styled.div`
   position: relative;
 
-  &:hover ${List} {
-    display: flex;
+  ${(props) => (props.$open ? `${List} { display: flex; }` : '')}
+
+  @media (hover: hover) {
+    &:hover ${List} {
+      display: flex;
+    }
   }
 
   .item:hover {
@@ -37,6 +59,24 @@ const Menu = styled.div`
 `;
 
 const Dropdown = ({ onSelectGenre }) => {
+  const [open, setOpen] = React.useState(false);
+  const menuRef = React.useRef(null);
+
+  // Close when tapping anywhere outside the menu
+  React.useEffect(() => {
+    if (!open) return;
+    const onClickOutside = (event) => {
+      if (!menuRef.current.contains(event.target)) setOpen(false);
+    };
+    document.addEventListener('click', onClickOutside);
+    return () => document.removeEventListener('click', onClickOutside);
+  }, [open]);
+
+  const selectGenre = (genre, id) => {
+    setOpen(false);
+    onSelectGenre(genre, id);
+  };
+
   const genreList = {
     ACTION: 28,
     ADVENTURE: 12,
@@ -60,8 +100,8 @@ const Dropdown = ({ onSelectGenre }) => {
   };
   const genreListSize = Object.keys(genreList).length;
   return (
-    <Menu>
-      <button className="item">
+    <Menu ref={menuRef} $open={open} onMouseLeave={() => setOpen(false)}>
+      <button className="item" aria-expanded={open} onClick={() => setOpen(!open)}>
         GENRES
         <i className="caret down icon"></i>
       </button>
@@ -70,7 +110,7 @@ const Dropdown = ({ onSelectGenre }) => {
           {Object.entries(genreList).map(([genre, id], index) => {
             while (index < genreListSize / 2) {
               return (
-                <Item key={id} onClick={() => onSelectGenre(genre, id)}>
+                <Item key={id} onClick={() => selectGenre(genre, id)}>
                   {genre}
                 </Item>
               );
@@ -82,7 +122,7 @@ const Dropdown = ({ onSelectGenre }) => {
           {Object.entries(genreList).map(([genre, id], index) => {
             while (index > genreListSize / 2) {
               return (
-                <Item key={id} onClick={() => onSelectGenre(genre, id)}>
+                <Item key={id} onClick={() => selectGenre(genre, id)}>
                   {genre}
                 </Item>
               );

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { posterUrl, formatRating } from '../api/helpers';
 
 const Movie = styled.div`
   position: relative;
@@ -14,11 +15,21 @@ const Movie = styled.div`
     background: #22848d;
     cursor: pointer;
   }
+
+  @media (max-width: 850px) {
+    width: 150px;
+  }
 `;
 
 const Poster = styled.img`
   width: 185px;
   height: 278px;
+
+  @media (max-width: 850px) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+  }
 `;
 
 const Rating = styled.p`
@@ -36,50 +47,49 @@ const Rating = styled.p`
   }
 `;
 
-const Favorite = styled.p`
+const ActionButton = styled.button`
   padding: 4px;
-  display: inline-block;
+  border: 0;
+  background: none;
+  cursor: pointer;
 
   i {
     color: #eebf10;
     font-size: 40px;
-
-    &:hover {
-      color: goldenrod;
-    }
+    margin: 0;
   }
-`;
 
-const Hide = styled.p`
-  padding: 4px;
-  display: inline-block;
-
-  i {
-    color: #eebf10;
-    font-size: 40px;
-
-    &:hover {
-      color: goldenrod;
-    }
+  &:hover i {
+    color: goldenrod;
   }
 `;
 
 const MovieItem = ({ movie, onAddFavorite, onClickMovieItem, onHideMovie }) => {
-  const poster_path = `http://image.tmdb.org/t/p/w185/${movie.poster_path}`;
+  const poster_path = posterUrl(movie.poster_path);
 
   return (
     <Movie>
       <Poster src={poster_path} alt={movie.title} onClick={() => onClickMovieItem(movie)} />
       <Rating>
         <i className="star icon"></i>
-        {movie.vote_average}
+        {formatRating(movie.vote_average)}
       </Rating>
-      <Favorite>
-        <i className="plus circle icon" onClick={() => onAddFavorite(movie)}></i>
-      </Favorite>
-      <Hide>
-        <i className="minus circle icon" onClick={() => onHideMovie(movie)}></i>
-      </Hide>
+      <ActionButton
+        type="button"
+        aria-label={`Add ${movie.title} to favorites`}
+        title="Add to favorites"
+        onClick={() => onAddFavorite(movie)}
+      >
+        <i className="plus circle icon"></i>
+      </ActionButton>
+      <ActionButton
+        type="button"
+        aria-label={`Hide ${movie.title}`}
+        title="Hide movie"
+        onClick={() => onHideMovie(movie)}
+      >
+        <i className="minus circle icon"></i>
+      </ActionButton>
     </Movie>
   );
 };
