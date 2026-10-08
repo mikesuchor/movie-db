@@ -2,57 +2,65 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import MovieItem from './MovieItem';
+import GenreChips from './GenreChips';
 
-const Movies = styled.div`
-  border-top: 1px solid #fdfdfe;
-  /* keep the title clear of the fixed navbar when scrolled to after a search */
-  scroll-margin-top: 65px;
-
-  /* phones also have the search row open below the navbar */
-  @media (max-width: 600px) {
-    scroll-margin-top: 131px;
-  }
+const Section = styled.section`
+  padding: 40px var(--gutter) 8px;
 `;
 
-const Title = styled.h2`
-  margin-top: 20px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 32px;
-  font-weight: 600;
-  text-align: center;
+const SectionHead = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 `;
 
 const Empty = styled.p`
-  margin: 40px 20px;
-  text-align: center;
+  padding: 40px 0;
+  color: var(--muted);
 `;
 
-const List = styled.div`
-  outline: none;
-  margin: 20px auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px 16px;
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 12px;
+  }
 `;
 
-const MoviesList = ({ genre, query, movies, onAddFavorite, onClickMovieItem, onHideMovie }) => {
-  const renderedList = movies.map((movie) => {
-    return (
-      <MovieItem
-        key={movie.id}
-        movie={movie}
-        onAddFavorite={onAddFavorite}
-        onClickMovieItem={onClickMovieItem}
-        onHideMovie={onHideMovie}
-      />
-    );
-  });
-
+const MoviesList = ({ genre, query, movies, onSelectGenre, onClearGenre, onAddFavorite, onClickMovieItem, onHideMovie }) => {
   return (
-    <Movies id="movies-list">
-      <Title>{query ? `RESULTS FOR "${query.toUpperCase()}"` : `TRENDING ${genre ? `${genre} ` : ''}MOVIES`}</Title>
-      {movies.length ? <List>{renderedList}</List> : <Empty>No movies found. Try a different search.</Empty>}
-    </Movies>
+    <Section id="movies-list">
+      <SectionHead>
+        <SectionTitle>{query ? `Results for “${query}”` : `Trending${genre ? ` ${genre}` : ''}`}</SectionTitle>
+      </SectionHead>
+      {!query && <GenreChips genre={genre} onSelectGenre={onSelectGenre} onClear={onClearGenre} />}
+      {movies.length ? (
+        <Grid>
+          {movies.map((movie) => (
+            <MovieItem
+              key={movie.id}
+              movie={movie}
+              onAddFavorite={onAddFavorite}
+              onClickMovieItem={onClickMovieItem}
+              onHideMovie={onHideMovie}
+            />
+          ))}
+        </Grid>
+      ) : (
+        <Empty>No movies found. Try a different search.</Empty>
+      )}
+    </Section>
   );
 };
 
@@ -60,6 +68,8 @@ MoviesList.propTypes = {
   genre: PropTypes.string.isRequired,
   query: PropTypes.string.isRequired,
   movies: PropTypes.array.isRequired,
+  onSelectGenre: PropTypes.func.isRequired,
+  onClearGenre: PropTypes.func.isRequired,
   onAddFavorite: PropTypes.func.isRequired,
   onClickMovieItem: PropTypes.func.isRequired,
   onHideMovie: PropTypes.func.isRequired
