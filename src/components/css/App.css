@@ -1,0 +1,86 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+/* Same palette as mikesuchor.github.io: black, off-white, and gold as the one accent */
+:root {
+  --black: #000000;
+  --white: #f2f2f2;
+  --gold: #f2a30f;
+  --gold-light: #ffbe3d;
+  --surface: #14161b;
+  --surface-hover: #262a33;
+  --section: #0b0c0f;
+  --border: #272b33;
+}
+html {
+  scroll-behavior: smooth;
+}
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+img,
+b,
+u,
+i,
+ol,
+ul,
+li,
+form,
+article,
+aside,
+footer,
+header,
+menu,
+nav,
+output,
+section,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  font-family: Helvetica, Arial, sans-serif;
+  color: var(--white);
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+ol,
+ul {
+  list-style: none;
+}
+body {
+  padding-top: 50px;
+  background: var(--black);
+}
+/* Semantic UI turns links blue on hover */
+a:hover,
+a:hover i {
+  color: var(--gold);
+}
+p {
+  font-size: 16px;
+}
