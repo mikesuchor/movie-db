@@ -1,106 +1,191 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
-import { formatRating } from '../api/helpers';
+import { Play, Plus, Check, Star } from 'lucide-react';
+import { backdropUrl, formatRating, releaseYear } from '../api/helpers';
+import TrailerModal from './TrailerModal';
 
-const Movie = styled.div`
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin-top: 15px;
-  padding: 30px 0;
+const fade = keyframes`
+  from {
+    opacity: 0;
+  }
 `;
 
-const Info = styled.div`
-  margin: auto;
-  padding: 25px 100px;
-  min-width: 800px;
-  width: 62%;
-  display: flex;
-  flex-direction: column;
-  background: rgba(0, 0, 0, 0.9);
+const Button = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform 0.15s var(--ease), background 0.2s, border-color 0.2s;
 
-  @media (max-width: 850px) {
-    min-width: 0;
-    width: 100%;
-    padding: 25px 15px;
+  &:active {
+    transform: scale(0.97);
   }
+
+  ${(props) =>
+    props.$primary
+      ? css`
+          background: var(--gold);
+          color: #000;
+
+          &:hover {
+            background: var(--gold-light);
+          }
+        `
+      : css`
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.18);
+          -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.18);
+          }
+        `}
+
+  @media (max-width: 640px) {
+    height: 44px;
+  }
+`;
+
+const Hero = styled.header`
+  position: relative;
+  min-height: min(78vh, 720px);
+  display: flex;
+  align-items: flex-end;
+  padding: calc(var(--nav-h) + 48px) var(--gutter) 56px;
+  overflow: hidden;
+  animation: ${fade} 0.6s var(--ease);
+
+  @media (max-width: 640px) {
+    min-height: 70vh;
+    padding-bottom: 32px;
+  }
+`;
+
+const Backdrop = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-size: cover;
+  background-position: center 20%;
+  background-color: var(--surface);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(7, 8, 10, 0.92) 0%, rgba(7, 8, 10, 0.55) 45%, rgba(7, 8, 10, 0.1) 100%),
+      linear-gradient(to top, var(--bg) 0%, rgba(7, 8, 10, 0) 45%);
+  }
+
+  @media (max-width: 640px) {
+    &::after {
+      background: linear-gradient(to top, var(--bg) 8%, rgba(7, 8, 10, 0.55) 60%, rgba(7, 8, 10, 0.35) 100%);
+    }
+  }
+`;
+
+const Content = styled.div`
+  max-width: 600px;
+`;
+
+const Eyebrow = styled.p`
+  margin-bottom: 8px;
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 `;
 
 const Title = styled.h1`
-  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(32px, 5.5vw, 64px);
   font-weight: 800;
-  font-size: 46px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+`;
 
-  @media (max-width: 600px) {
-    font-size: 32px;
-  }
+const Meta = styled.p`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-weight: 500;
+`;
+
+const Rating = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--gold);
+  font-weight: 700;
 `;
 
 const Overview = styled.p`
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 300;
-  font-size: 16px;
+  margin-top: 16px;
+  color: #d6d8dd;
 `;
 
-const Rating = styled.div`
-  font-family: 'Open Sans', sans-serif;
-  font-size: 20px;
-  margin: 15px 0 20px;
-
-  .star {
-    color: #eebf10;
-    font-size: 20px;
-  }
+const Buttons = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
 `;
 
-const Trailer = styled.iframe`
-  margin: auto;
-  width: 100%;
-  max-height: 450px;
-  aspect-ratio: 16 / 9;
-`;
-
-// Movies without a YouTube trailer show just the backdrop and details
-const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer }) => {
-  const backdrop_path = `https://image.tmdb.org/t/p/original/${featuredMovie.backdrop_path}`;
-  const stars = [];
-
-  for (let i = 0; i < 10; i++) {
-    if (i < featuredMovie.vote_average && featuredMovie.vote_average - i < 1 && featuredMovie.vote_average - i > 0) {
-      stars.push(<i className="star half icon" key={`star${i}`}></i>);
-    } else if (i < featuredMovie.vote_average && featuredMovie.vote_average - i > 0) {
-      stars.push(<i className="star icon" key={`star${i}`}></i>);
-    }
-  }
+// App remounts it (via key) per movie so the fade-in replays on every change
+const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer, isFavorite, onAddFavorite, onRemoveFavorite }) => {
+  const [trailerOpen, setTrailerOpen] = React.useState(false);
+  const closeTrailer = React.useCallback(() => setTrailerOpen(false), []);
+  const year = releaseYear(featuredMovie);
 
   return (
-    <Movie style={{ backgroundImage: `url(${backdrop_path})` }}>
-      <Info>
+    <Hero>
+      <Backdrop style={{ backgroundImage: `url(${backdropUrl(featuredMovie.backdrop_path)})` }} />
+      <Content>
+        <Eyebrow>Featured</Eyebrow>
         <Title>{featuredMovie.title}</Title>
+        <Meta>
+          <Rating>
+            <Star size={16} fill="currentColor" />
+            {formatRating(featuredMovie.vote_average)}
+          </Rating>
+          {year && <span>{year}</span>}
+        </Meta>
         <Overview>{featuredMovie.overview}</Overview>
-        <Rating>
-          {stars}
-          <span className="featured-movie-average">{formatRating(featuredMovie.vote_average)}</span>
-        </Rating>
-        {featuredMovieTrailer && (
-          <Trailer
-            className="featured-movie-trailer"
-            title={featuredMovieTrailer.name}
-            src={`https://www.youtube.com/embed/${featuredMovieTrailer.key}`}
-            frameBorder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        )}
-      </Info>
-    </Movie>
+        <Buttons>
+          {featuredMovieTrailer && (
+            <Button type="button" $primary onClick={() => setTrailerOpen(true)}>
+              <Play size={18} fill="currentColor" /> Watch trailer
+            </Button>
+          )}
+          <Button
+            type="button"
+            onClick={() => (isFavorite ? onRemoveFavorite(featuredMovie) : onAddFavorite(featuredMovie))}
+          >
+            {isFavorite ? <Check size={18} /> : <Plus size={18} />} {isFavorite ? 'In My List' : 'My List'}
+          </Button>
+        </Buttons>
+      </Content>
+      {trailerOpen && featuredMovieTrailer && <TrailerModal trailer={featuredMovieTrailer} onClose={closeTrailer} />}
+    </Hero>
   );
 };
 
 FeaturedMovie.propTypes = {
   featuredMovie: PropTypes.object.isRequired,
-  featuredMovieTrailer: PropTypes.object
+  featuredMovieTrailer: PropTypes.object,
+  isFavorite: PropTypes.bool.isRequired,
+  onAddFavorite: PropTypes.func.isRequired,
+  onRemoveFavorite: PropTypes.func.isRequired
 };
 
 export default FeaturedMovie;

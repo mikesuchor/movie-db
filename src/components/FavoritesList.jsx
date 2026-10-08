@@ -2,70 +2,53 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import FavoriteItem from './FavoriteItem';
+import Row from './Row';
 
-const Favorites = styled.div`
-  border-top: 1px solid #fdfdfe;
-  background: #0d253f;
-  /* keep the title clear of the fixed navbar when scrolled to from MY LIST */
-  scroll-margin-top: 65px;
-
-  /* phones may also have the search row open below the navbar */
-  @media (max-width: 600px) {
-    scroll-margin-top: 131px;
-  }
+const Section = styled.section`
+  padding: 40px var(--gutter) 8px;
 `;
 
-const Title = styled.h2`
-  margin-top: 20px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 32px;
-  font-weight: 600;
-  text-align: center;
+const SectionHead = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 `;
 
 const Empty = styled.p`
-  margin: 20px 20px 30px;
-  text-align: center;
+  padding: 40px 0;
+  color: var(--muted);
 `;
 
-const List = styled.div`
-  outline: none;
-  padding: 20px 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-// Hidden while empty, unless MY LIST was clicked (showEmpty), so the button always has somewhere to go
+// Hidden while empty, unless My List was clicked (showEmpty), so the button always has somewhere to go
 const FavoritesList = ({ favorites, showEmpty, onRemoveFavorite, onClickMovieItem }) => {
-  if (!favorites.length && showEmpty) {
+  if (!favorites.length && !showEmpty) return null;
+
+  if (!favorites.length) {
     return (
-      <Favorites id="favorites-list">
-        <Title>FAVORITES LIST</Title>
+      <Section id="favorites-list">
+        <SectionHead>
+          <SectionTitle>My List</SectionTitle>
+        </SectionHead>
         <Empty>Your list is empty. Press + on a movie to add it.</Empty>
-      </Favorites>
+      </Section>
     );
   }
 
-  if (favorites && favorites.length) {
-    const renderedList = favorites.map((movie) => {
-      return (
-        <FavoriteItem
-          key={movie.id}
-          movie={movie}
-          onRemoveFavorite={onRemoveFavorite}
-          onClickMovieItem={onClickMovieItem}
-        />
-      );
-    });
-
-    return (
-      <Favorites id="favorites-list">
-        <Title>FAVORITES LIST</Title>
-        <List>{renderedList}</List>
-      </Favorites>
-    );
-  } else return null;
+  return (
+    <Row id="favorites-list" title="My List">
+      {favorites.map((movie) => (
+        <FavoriteItem key={movie.id} movie={movie} onRemoveFavorite={onRemoveFavorite} onClickMovieItem={onClickMovieItem} />
+      ))}
+    </Row>
+  );
 };
 
 FavoritesList.propTypes = {

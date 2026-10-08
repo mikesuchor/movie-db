@@ -1,84 +1,103 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { ChevronDown, RotateCcw } from 'lucide-react';
 import HiddenItem from './HiddenItem';
+import Row from './Row';
 
-const Hidden = styled.div`
-  border-top: 1px solid #fdfdfe;
-  border-bottom: 1px solid #fdfdfe;
-  background: #0d253f;
-  padding-bottom: 15px;
-
-  i.caret {
-    font-size: 32px;
-    display: block;
-    margin: auto;
-  }
-
-  i.icon:hover {
-    cursor: pointer;
-  }
+const Section = styled.section`
+  padding: 40px var(--gutter) 8px;
 `;
 
-const Title = styled.h2`
-  margin-top: 20px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 32px;
+const SmallButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 13px;
   font-weight: 600;
-  text-align: center;
-`;
-
-const List = styled.div`
-  outline: none;
-  padding: 20px 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const Button = styled.button`
-  display: block;
-  margin: auto;
-  font-family: 'Montserrat', sans-serif;
-  color: #fdfdfe;
-  font-weight: 600;
-  padding: 8px;
-  border: 3px solid #144b5c;
-  border-radius: 16px;
-  background: #144b5c;
+  transition: transform 0.15s var(--ease), background 0.2s;
 
   &:hover {
-    cursor: pointer;
-    border: 3px solid #fdfdfe;
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 `;
 
-const HiddenList = ({ hiddenList, onClickMovieItem, clearHiddenList }) => {
-  const [hidden, setHidden] = React.useState(false);
+const Disclosure = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 14px;
+  font-weight: 500;
 
-  if (hiddenList && hiddenList.length) {
-    const renderedList = hiddenList.map((movie) => {
-      return <HiddenItem key={movie.id} movie={movie} onClickMovieItem={onClickMovieItem} />;
-    });
+  &:hover {
+    border-color: var(--gold);
+  }
+`;
 
+const HiddenList = ({
+  hiddenList,
+  onClickMovieItem,
+  onUnhideMovie,
+  clearHiddenList
+}) => {
+  const [open, setOpen] = React.useState(false);
+
+  if (!hiddenList.length) return null;
+
+  if (!open) {
     return (
-      <Hidden>
-        <Title>HIDDEN LIST</Title>
-        <i className="caret down icon" onClick={() => setHidden(!hidden)}></i>
-        {hidden ? (
-          <>
-            <List>{renderedList}</List>
-            <Button onClick={() => clearHiddenList()}>CLEAR HIDDEN</Button>
-          </>
-        ) : null}
-      </Hidden>
+      <Section>
+        <Disclosure type="button" aria-expanded="false" onClick={() => setOpen(true)}>
+          Hidden movies ({hiddenList.length}) <ChevronDown size={18} />
+        </Disclosure>
+      </Section>
     );
-  } else return null;
+  }
+
+  const action = (
+    <>
+      <SmallButton type="button" onClick={clearHiddenList}>
+        <RotateCcw size={14} /> Unhide all
+      </SmallButton>
+      <SmallButton type="button" onClick={() => setOpen(false)}>
+        Collapse
+      </SmallButton>
+    </>
+  );
+
+  return (
+    <Row title="Hidden" subtitle={`${hiddenList.length} hidden`} action={action}>
+      {hiddenList.map((movie) => (
+        <HiddenItem
+          key={movie.id}
+          movie={movie}
+          onClickMovieItem={onClickMovieItem}
+          onUnhideMovie={onUnhideMovie}
+        />
+      ))}
+    </Row>
+  );
 };
 
 HiddenList.propTypes = {
   hiddenList: PropTypes.array.isRequired,
   onClickMovieItem: PropTypes.func.isRequired,
+  onUnhideMovie: PropTypes.func.isRequired,
   clearHiddenList: PropTypes.func.isRequired
 };
 

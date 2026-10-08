@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Star, Plus, EyeOff } from 'lucide-react';
+import { Star, X } from 'lucide-react';
 import { posterUrl, formatRating, releaseYear } from '../api/helpers';
 
 const IconButton = styled.button`
@@ -133,7 +133,7 @@ const Year = styled.span`
   font-size: 12px;
 `;
 
-const MovieItem = ({ movie, onAddFavorite, onClickMovieItem, onHideMovie }) => {
+const FavoriteItem = ({ movie, onRemoveFavorite, onClickMovieItem }) => {
   const year = releaseYear(movie);
 
   return (
@@ -159,30 +159,21 @@ const MovieItem = ({ movie, onAddFavorite, onClickMovieItem, onHideMovie }) => {
       <Actions>
         <IconButton
           type="button"
-          aria-label={`Add to My List: ${movie.title}`}
-          title="Add to My List"
-          onClick={() => onAddFavorite(movie)}
+          aria-label={`Remove from My List: ${movie.title}`}
+          title="Remove from My List"
+          onClick={() => onRemoveFavorite(movie)}
         >
-          <Plus size={18} />
-        </IconButton>
-        <IconButton
-          type="button"
-          aria-label={`Hide: ${movie.title}`}
-          title="Hide"
-          onClick={() => onHideMovie(movie)}
-        >
-          <EyeOff size={18} />
+          <X size={18} />
         </IconButton>
       </Actions>
     </Card>
   );
 };
 
-MovieItem.propTypes = {
+FavoriteItem.propTypes = {
   movie: PropTypes.object.isRequired,
-  onAddFavorite: PropTypes.func.isRequired,
-  onClickMovieItem: PropTypes.func.isRequired,
-  onHideMovie: PropTypes.func.isRequired
+  onRemoveFavorite: PropTypes.func.isRequired,
+  onClickMovieItem: PropTypes.func.isRequired
 };
 
-export default MovieItem;
+export default FavoriteItem;
