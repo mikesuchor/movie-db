@@ -1,7 +1,7 @@
 // Poster image URL, or a placeholder for movies TMDB has no poster for
 export const posterUrl = (posterPath) =>
   posterPath
-    ? `https://image.tmdb.org/t/p/w185${posterPath}`
+    ? `https://image.tmdb.org/t/p/w342${posterPath}`
     : `${import.meta.env.BASE_URL}poster-placeholder.svg`;
 
 // TMDB lists videos in no useful order, so prefer official YouTube trailers,
@@ -17,3 +17,8 @@ export const pickTrailer = (videos = []) => {
 
 // TMDB ratings come with up to three decimals (8.198); show one (8.2)
 export const formatRating = (rating) => Number(rating || 0).toFixed(1);
+
+export const backdropUrl = (backdropPath) =>
+  backdropPath ? `https://image.tmdb.org/t/p/w1280${backdropPath}` : '';
+
+export const releaseYear = (movie) => (movie.release_date || '').slice(0, 4);
