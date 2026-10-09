@@ -301,6 +301,7 @@ const App = function () {
 
   if (!dataLoaded) return <div></div>;
 
+  // Hidden movies stay in `movies` and are left out here, so they can come back
   const visibleMovies = movies.filter(
     (movie) => !hidden.some((hiddenMovie) => hiddenMovie.id === movie.id),
   );

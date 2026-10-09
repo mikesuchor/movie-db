@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { ChevronDown, RotateCcw } from 'lucide-react';
 import HiddenItem from './HiddenItem';
 import Row from './Row';
@@ -22,7 +21,9 @@ const SmallButton = styled.button`
   backdrop-filter: blur(8px);
   font-size: 13px;
   font-weight: 600;
-  transition: transform 0.15s var(--ease), background 0.2s;
+  transition:
+    transform 0.15s var(--ease),
+    background 0.2s;
 
   &:hover {
     background: rgba(255, 255, 255, 0.18);
@@ -49,12 +50,30 @@ const Disclosure = styled.button`
   }
 `;
 
+interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
+  vote_average: number;
+  release_date?: string;
+  popularity?: number;
+}
+
+interface HiddenListProps {
+  hiddenList: Movie[];
+  onClickMovieItem: (movie: Movie) => void;
+  onUnhideMovie: (movie: Movie) => void;
+  clearHiddenList: () => void;
+}
+
 const HiddenList = ({
   hiddenList,
   onClickMovieItem,
   onUnhideMovie,
-  clearHiddenList
-}) => {
+  clearHiddenList,
+}: HiddenListProps) => {
   const [open, setOpen] = React.useState(false);
 
   if (!hiddenList.length) return null;
@@ -62,7 +81,11 @@ const HiddenList = ({
   if (!open) {
     return (
       <Section>
-        <Disclosure type="button" aria-expanded="false" onClick={() => setOpen(true)}>
+        <Disclosure
+          type="button"
+          aria-expanded="false"
+          onClick={() => setOpen(true)}
+        >
           Hidden movies ({hiddenList.length}) <ChevronDown size={18} />
         </Disclosure>
       </Section>
@@ -81,7 +104,11 @@ const HiddenList = ({
   );
 
   return (
-    <Row title="Hidden" subtitle={`${hiddenList.length} hidden`} action={action}>
+    <Row
+      title="Hidden"
+      subtitle={`${hiddenList.length} hidden`}
+      action={action}
+    >
       {hiddenList.map((movie) => (
         <HiddenItem
           key={movie.id}
@@ -92,13 +119,6 @@ const HiddenList = ({
       ))}
     </Row>
   );
-};
-
-HiddenList.propTypes = {
-  hiddenList: PropTypes.array.isRequired,
-  onClickMovieItem: PropTypes.func.isRequired,
-  onUnhideMovie: PropTypes.func.isRequired,
-  clearHiddenList: PropTypes.func.isRequired
 };
 
 export default HiddenList;

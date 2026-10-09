@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { Search, X } from 'lucide-react';
 
 const Form = styled.form`
@@ -25,7 +24,9 @@ const Input = styled.input`
   color: var(--text);
   font: inherit;
   font-size: 15px;
-  transition: border-color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 
   &::placeholder {
     color: var(--muted);
@@ -64,15 +65,30 @@ const Clear = styled.button`
   color: var(--text);
 `;
 
-const SearchBar = ({ onSearchSubmit, onSearchClear }) => {
+interface SearchBarProps {
+  query: string;
+  onSearchSubmit: (input: string) => void;
+  onSearchClear: () => void;
+}
+
+const SearchBar = ({
+  query,
+  onSearchSubmit,
+  onSearchClear,
+}: SearchBarProps) => {
   const [input, setInput] = React.useState('');
 
-  const handleSubmit = (event) => {
+  // The search ended somewhere else (logo, All chip), so empty the box too
+  React.useEffect(() => {
+    if (!query) setInput('');
+  }, [query]);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSearchSubmit(input);
   };
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
     // Clearing the box brings back the default movies
     if (!event.target.value.trim()) onSearchClear();
@@ -102,11 +118,6 @@ const SearchBar = ({ onSearchSubmit, onSearchClear }) => {
       )}
     </Form>
   );
-};
-
-SearchBar.propTypes = {
-  onSearchSubmit: PropTypes.func.isRequired,
-  onSearchClear: PropTypes.func.isRequired
 };
 
 export default SearchBar;

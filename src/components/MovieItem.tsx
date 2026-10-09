@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { Star, Eye } from 'lucide-react';
+import { Star, Plus, EyeOff } from 'lucide-react';
 import { posterUrl, formatRating, releaseYear } from '../api/helpers';
 
 const IconButton = styled.button`
@@ -15,7 +14,10 @@ const IconButton = styled.button`
   color: var(--text);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  transition: background 0.2s, color 0.2s, transform 0.15s var(--ease);
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.15s var(--ease);
 
   &:hover {
     background: var(--gold);
@@ -36,7 +38,9 @@ const Info = styled.span`
   background: linear-gradient(to top, rgba(7, 8, 10, 0.95), rgba(7, 8, 10, 0));
   opacity: 0;
   transform: translateY(6px);
-  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+  transition:
+    opacity 0.25s var(--ease),
+    transform 0.25s var(--ease);
 
   /* touch screens have no hover, so keep the titles visible */
   @media (hover: none) {
@@ -54,7 +58,9 @@ const Actions = styled.div`
   gap: 6px;
   opacity: 0;
   transform: translateY(-4px);
-  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+  transition:
+    opacity 0.2s var(--ease),
+    transform 0.2s var(--ease);
 
   ${Card}:hover &,
   ${Card}:focus-within & {
@@ -79,7 +85,9 @@ const PosterButton = styled.button`
   overflow: hidden;
   text-align: left;
   aspect-ratio: 2 / 3;
-  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 
   img {
     width: 100%;
@@ -90,7 +98,9 @@ const PosterButton = styled.button`
   ${Card}:hover &,
   ${Card}:focus-within & {
     transform: translateY(-6px);
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(242, 163, 15, 0.5);
+    box-shadow:
+      0 16px 32px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(242, 163, 15, 0.5);
 
     @media (prefers-reduced-motion: reduce) {
       transform: none;
@@ -133,12 +143,39 @@ const Year = styled.span`
   font-size: 12px;
 `;
 
-const HiddenItem = ({ movie, onClickMovieItem, onUnhideMovie }) => {
+interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
+  vote_average: number;
+  release_date?: string;
+  popularity?: number;
+}
+
+interface MovieItemProps {
+  movie: Movie;
+  onAddFavorite: (movie: Movie) => void;
+  onClickMovieItem: (movie: Movie) => void;
+  onHideMovie: (movie: Movie) => void;
+}
+
+const MovieItem = ({
+  movie,
+  onAddFavorite,
+  onClickMovieItem,
+  onHideMovie,
+}: MovieItemProps) => {
   const year = releaseYear(movie);
 
   return (
     <Card>
-      <PosterButton type="button" onClick={() => onClickMovieItem(movie)} aria-label={`Show ${movie.title}`}>
+      <PosterButton
+        type="button"
+        onClick={() => onClickMovieItem(movie)}
+        aria-label={`Show ${movie.title}`}
+      >
         <img
           src={posterUrl(movie.poster_path)}
           alt=""
@@ -147,10 +184,12 @@ const HiddenItem = ({ movie, onClickMovieItem, onUnhideMovie }) => {
             event.currentTarget.src = `${import.meta.env.BASE_URL}poster-placeholder.svg`;
           }}
         />
-        <Rating>
-          <Star size={12} fill="currentColor" />
-          {formatRating(movie.vote_average)}
-        </Rating>
+        {movie.vote_average > 0 && (
+          <Rating>
+            <Star size={12} fill="currentColor" />
+            {formatRating(movie.vote_average)}
+          </Rating>
+        )}
         <Info>
           <Title>{movie.title}</Title>
           {year && <Year>{year}</Year>}
@@ -159,21 +198,23 @@ const HiddenItem = ({ movie, onClickMovieItem, onUnhideMovie }) => {
       <Actions>
         <IconButton
           type="button"
-          aria-label={`Unhide: ${movie.title}`}
-          title="Unhide"
-          onClick={() => onUnhideMovie(movie)}
+          aria-label={`Add to Favorites: ${movie.title}`}
+          title="Add to Favorites"
+          onClick={() => onAddFavorite(movie)}
         >
-          <Eye size={18} />
+          <Plus size={18} />
+        </IconButton>
+        <IconButton
+          type="button"
+          aria-label={`Hide: ${movie.title}`}
+          title="Hide"
+          onClick={() => onHideMovie(movie)}
+        >
+          <EyeOff size={18} />
         </IconButton>
       </Actions>
     </Card>
   );
 };
 
-HiddenItem.propTypes = {
-  movie: PropTypes.object.isRequired,
-  onClickMovieItem: PropTypes.func.isRequired,
-  onUnhideMovie: PropTypes.func.isRequired
-};
-
-export default HiddenItem;
+export default MovieItem;

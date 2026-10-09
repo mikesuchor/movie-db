@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Section = styled.section`
@@ -41,7 +40,9 @@ const Arrow = styled.button`
   border-radius: 50%;
   background: var(--surface-2);
   color: var(--text);
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 
   &:hover {
     background: var(--gold);
@@ -75,11 +76,23 @@ const Scroller = styled.div`
 `;
 
 // A titled, horizontally scrolling strip of cards with arrow buttons on wide screens
-const Row = ({ id, title, subtitle, action, children }) => {
-  const scroller = React.useRef(null);
-  const scrollBy = (direction) => {
+interface RowProps {
+  id?: string;
+  title: string;
+  subtitle?: string;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+}
+
+const Row = ({ id, title, subtitle, action, children }: RowProps) => {
+  const scroller = React.useRef<HTMLDivElement>(null);
+  const scrollBy = (direction: number) => {
     const el = scroller.current;
-    el.scrollBy({ left: direction * el.clientWidth * 0.85, behavior: 'smooth' });
+    if (!el) return;
+    el.scrollBy({
+      left: direction * el.clientWidth * 0.85,
+      behavior: 'smooth',
+    });
   };
 
   return (
@@ -91,10 +104,18 @@ const Row = ({ id, title, subtitle, action, children }) => {
         </div>
         <Tools>
           {action}
-          <Arrow type="button" aria-label="Scroll left" onClick={() => scrollBy(-1)}>
+          <Arrow
+            type="button"
+            aria-label="Scroll left"
+            onClick={() => scrollBy(-1)}
+          >
             <ChevronLeft size={20} />
           </Arrow>
-          <Arrow type="button" aria-label="Scroll right" onClick={() => scrollBy(1)}>
+          <Arrow
+            type="button"
+            aria-label="Scroll right"
+            onClick={() => scrollBy(1)}
+          >
             <ChevronRight size={20} />
           </Arrow>
         </Tools>
@@ -102,14 +123,6 @@ const Row = ({ id, title, subtitle, action, children }) => {
       <Scroller ref={scroller}>{children}</Scroller>
     </Section>
   );
-};
-
-Row.propTypes = {
-  id: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  subtitle: PropTypes.string,
-  action: PropTypes.node,
-  children: PropTypes.node
 };
 
 export default Row;

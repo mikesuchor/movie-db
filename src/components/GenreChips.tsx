@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 export const GENRES = {
   Action: 28,
@@ -21,7 +20,7 @@ export const GENRES = {
   'TV Movie': 10770,
   Thriller: 53,
   War: 10752,
-  Western: 37
+  Western: 37,
 };
 
 const Chips = styled.div`
@@ -37,7 +36,7 @@ const Chips = styled.div`
   }
 `;
 
-const Chip = styled.button`
+const Chip = styled.button<{ $on: boolean }>`
   flex: none;
   height: 36px;
   padding: 0 16px;
@@ -47,30 +46,39 @@ const Chip = styled.button`
   color: ${(props) => (props.$on ? '#000' : 'var(--muted)')};
   font-size: 14px;
   font-weight: ${(props) => (props.$on ? 600 : 500)};
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background 0.2s;
 
   &:hover {
     ${(props) => !props.$on && 'color: var(--text); border-color: #3a3f4a;'}
   }
 `;
 
-const GenreChips = ({ genre, onSelectGenre, onClear }) => (
+interface GenreChipsProps {
+  genre: string;
+  onSelectGenre: (genre: string, id: number) => void;
+  onClear: () => void;
+}
+
+const GenreChips = ({ genre, onSelectGenre, onClear }: GenreChipsProps) => (
   <Chips role="group" aria-label="Genres">
     <Chip type="button" $on={!genre} aria-pressed={!genre} onClick={onClear}>
       All
     </Chip>
     {Object.entries(GENRES).map(([name, id]) => (
-      <Chip key={id} type="button" $on={genre === name} aria-pressed={genre === name} onClick={() => onSelectGenre(name, id)}>
+      <Chip
+        key={id}
+        type="button"
+        $on={genre === name}
+        aria-pressed={genre === name}
+        onClick={() => onSelectGenre(name, id)}
+      >
         {name}
       </Chip>
     ))}
   </Chips>
 );
-
-GenreChips.propTypes = {
-  genre: PropTypes.string.isRequired,
-  onSelectGenre: PropTypes.func.isRequired,
-  onClear: PropTypes.func.isRequired
-};
 
 export default GenreChips;

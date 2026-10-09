@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
-import PropTypes from 'prop-types';
 import { Play, Plus, Check, Star } from 'lucide-react';
 import { backdropUrl, formatRating, releaseYear } from '../api/helpers';
 import TrailerModal from './TrailerModal';
@@ -11,7 +10,7 @@ const fade = keyframes`
   }
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ $primary?: boolean }>`
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -21,7 +20,10 @@ const Button = styled.button`
   border-radius: 999px;
   font-size: 15px;
   font-weight: 600;
-  transition: transform 0.15s var(--ease), background 0.2s, border-color 0.2s;
+  transition:
+    transform 0.15s var(--ease),
+    background 0.2s,
+    border-color 0.2s;
 
   &:active {
     transform: scale(0.97);
@@ -80,13 +82,24 @@ const Backdrop = styled.div`
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, rgba(7, 8, 10, 0.92) 0%, rgba(7, 8, 10, 0.55) 45%, rgba(7, 8, 10, 0.1) 100%),
+    background:
+      linear-gradient(
+        to right,
+        rgba(7, 8, 10, 0.92) 0%,
+        rgba(7, 8, 10, 0.55) 45%,
+        rgba(7, 8, 10, 0.1) 100%
+      ),
       linear-gradient(to top, var(--bg) 0%, rgba(7, 8, 10, 0) 45%);
   }
 
   @media (max-width: 640px) {
     &::after {
-      background: linear-gradient(to top, var(--bg) 8%, rgba(7, 8, 10, 0.55) 60%, rgba(7, 8, 10, 0.35) 100%);
+      background: linear-gradient(
+        to top,
+        var(--bg) 8%,
+        rgba(7, 8, 10, 0.55) 60%,
+        rgba(7, 8, 10, 0.35) 100%
+      );
     }
   }
 `;
@@ -142,22 +155,61 @@ const Buttons = styled.div`
 `;
 
 // App remounts it (via key) per movie so the fade-in replays on every change
-const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer, isFavorite, onAddFavorite, onRemoveFavorite }) => {
+interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
+  vote_average: number;
+  release_date?: string;
+  popularity?: number;
+}
+
+interface Trailer {
+  key: string;
+  name: string;
+  site: string;
+  type: string;
+  official: boolean;
+}
+
+interface FeaturedMovieProps {
+  featuredMovie: Movie;
+  featuredMovieTrailer?: Trailer;
+  isFavorite: boolean;
+  onAddFavorite: (movie: Movie) => void;
+  onRemoveFavorite: (movie: Movie) => void;
+}
+
+const FeaturedMovie = ({
+  featuredMovie,
+  featuredMovieTrailer,
+  isFavorite,
+  onAddFavorite,
+  onRemoveFavorite,
+}: FeaturedMovieProps) => {
   const [trailerOpen, setTrailerOpen] = React.useState(false);
   const closeTrailer = React.useCallback(() => setTrailerOpen(false), []);
   const year = releaseYear(featuredMovie);
 
   return (
     <Hero>
-      <Backdrop style={{ backgroundImage: `url(${backdropUrl(featuredMovie.backdrop_path)})` }} />
+      <Backdrop
+        style={{
+          backgroundImage: `url(${backdropUrl(featuredMovie.backdrop_path)})`,
+        }}
+      />
       <Content>
         <Eyebrow>Featured</Eyebrow>
         <Title>{featuredMovie.title}</Title>
         <Meta>
-          <Rating>
-            <Star size={16} fill="currentColor" />
-            {formatRating(featuredMovie.vote_average)}
-          </Rating>
+          {featuredMovie.vote_average > 0 && (
+            <Rating>
+              <Star size={16} fill="currentColor" />
+              {formatRating(featuredMovie.vote_average)}
+            </Rating>
+          )}
           {year && <span>{year}</span>}
         </Meta>
         <Overview>{featuredMovie.overview}</Overview>
@@ -169,23 +221,22 @@ const FeaturedMovie = ({ featuredMovie, featuredMovieTrailer, isFavorite, onAddF
           )}
           <Button
             type="button"
-            onClick={() => (isFavorite ? onRemoveFavorite(featuredMovie) : onAddFavorite(featuredMovie))}
+            onClick={() =>
+              isFavorite
+                ? onRemoveFavorite(featuredMovie)
+                : onAddFavorite(featuredMovie)
+            }
           >
-            {isFavorite ? <Check size={18} /> : <Plus size={18} />} {isFavorite ? 'In My List' : 'My List'}
+            {isFavorite ? <Check size={18} /> : <Plus size={18} />}{' '}
+            {isFavorite ? 'In Favorites' : 'Add to Favorites'}
           </Button>
         </Buttons>
       </Content>
-      {trailerOpen && featuredMovieTrailer && <TrailerModal trailer={featuredMovieTrailer} onClose={closeTrailer} />}
+      {trailerOpen && featuredMovieTrailer && (
+        <TrailerModal trailer={featuredMovieTrailer} onClose={closeTrailer} />
+      )}
     </Hero>
   );
-};
-
-FeaturedMovie.propTypes = {
-  featuredMovie: PropTypes.object.isRequired,
-  featuredMovieTrailer: PropTypes.object,
-  isFavorite: PropTypes.bool.isRequired,
-  onAddFavorite: PropTypes.func.isRequired,
-  onRemoveFavorite: PropTypes.func.isRequired
 };
 
 export default FeaturedMovie;
