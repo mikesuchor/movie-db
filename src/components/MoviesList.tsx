@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import MovieItem from './MovieItem';
 import GenreChips from './GenreChips';
 
@@ -38,13 +37,56 @@ const Grid = styled.div`
   }
 `;
 
-const MoviesList = ({ genre, query, movies, onSelectGenre, onClearGenre, onAddFavorite, onClickMovieItem, onHideMovie }) => {
+interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
+  vote_average: number;
+  release_date?: string;
+  popularity?: number;
+}
+
+interface MoviesListProps {
+  genre: string;
+  query: string;
+  movies: Movie[];
+  onSelectGenre: (genre: string, id: number) => void;
+  onClearGenre: () => void;
+  onAddFavorite: (movie: Movie) => void;
+  onClickMovieItem: (movie: Movie) => void;
+  onHideMovie: (movie: Movie) => void;
+}
+
+const MoviesList = ({
+  genre,
+  query,
+  movies,
+  onSelectGenre,
+  onClearGenre,
+  onAddFavorite,
+  onClickMovieItem,
+  onHideMovie,
+}: MoviesListProps) => {
   return (
     <Section id="movies-list">
       <SectionHead>
-        <SectionTitle>{query ? `Results for “${query}”` : `Trending${genre ? ` ${genre}` : ''}`}</SectionTitle>
+        <SectionTitle>
+          {query
+            ? `Results for “${query}”`
+            : genre
+              ? `Popular ${genre}`
+              : 'Trending'}
+        </SectionTitle>
       </SectionHead>
-      {!query && <GenreChips genre={genre} onSelectGenre={onSelectGenre} onClear={onClearGenre} />}
+      {!query && (
+        <GenreChips
+          genre={genre}
+          onSelectGenre={onSelectGenre}
+          onClear={onClearGenre}
+        />
+      )}
       {movies.length ? (
         <Grid>
           {movies.map((movie) => (
@@ -62,17 +104,6 @@ const MoviesList = ({ genre, query, movies, onSelectGenre, onClearGenre, onAddFa
       )}
     </Section>
   );
-};
-
-MoviesList.propTypes = {
-  genre: PropTypes.string.isRequired,
-  query: PropTypes.string.isRequired,
-  movies: PropTypes.array.isRequired,
-  onSelectGenre: PropTypes.func.isRequired,
-  onClearGenre: PropTypes.func.isRequired,
-  onAddFavorite: PropTypes.func.isRequired,
-  onClickMovieItem: PropTypes.func.isRequired,
-  onHideMovie: PropTypes.func.isRequired
 };
 
 export default MoviesList;

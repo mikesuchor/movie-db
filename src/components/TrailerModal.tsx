@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import PropTypes from 'prop-types';
 import { X } from 'lucide-react';
 
 const fade = keyframes`
@@ -50,7 +49,9 @@ const Close = styled.button`
   border-radius: 50%;
   background: var(--surface-2);
   color: var(--text);
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 
   &:hover {
     background: var(--gold);
@@ -58,9 +59,22 @@ const Close = styled.button`
   }
 `;
 
-const TrailerModal = ({ trailer, onClose }) => {
+interface Trailer {
+  key: string;
+  name: string;
+  site: string;
+  type: string;
+  official: boolean;
+}
+
+interface TrailerModalProps {
+  trailer: Trailer;
+  onClose: () => void;
+}
+
+const TrailerModal = ({ trailer, onClose }: TrailerModalProps) => {
   React.useEffect(() => {
-    const onKey = (event) => event.key === 'Escape' && onClose();
+    const onKey = (event: KeyboardEvent) => event.key === 'Escape' && onClose();
     document.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
     return () => {
@@ -70,9 +84,19 @@ const TrailerModal = ({ trailer, onClose }) => {
   }, [onClose]);
 
   return (
-    <Overlay role="dialog" aria-modal="true" aria-label={trailer.name} onClick={onClose}>
+    <Overlay
+      role="dialog"
+      aria-modal="true"
+      aria-label={trailer.name}
+      onClick={onClose}
+    >
       <Body onClick={(event) => event.stopPropagation()}>
-        <Close type="button" aria-label="Close trailer" onClick={onClose} autoFocus>
+        <Close
+          type="button"
+          aria-label="Close trailer"
+          onClick={onClose}
+          autoFocus
+        >
           <X size={22} />
         </Close>
         <Video
@@ -84,11 +108,6 @@ const TrailerModal = ({ trailer, onClose }) => {
       </Body>
     </Overlay>
   );
-};
-
-TrailerModal.propTypes = {
-  trailer: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired
 };
 
 export default TrailerModal;
